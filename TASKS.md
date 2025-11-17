@@ -245,16 +245,16 @@
 
 ### 6.1 Basic Layout
 
-- [ ] `UI-01` Implement base layout:
+- [x] `UI-01` Implement base layout:
   - top panel (clock, status)
   - bottom panel (taskbar: windows + tray)
   - launcher overlay (Start menu equivalent)
   - workspace indicators
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UI-02` Define client-side state store (`shellState`) containing:
+- [x] `UI-02` Define client-side state store (`shellState`) containing:
   - windows, workspaces, active workspace, tray icons, focused window, etc.
-  - `status:todo`
+  - `status:done`
 
 - [ ] `UI-03` Implement initial sync from Core:
   - on load, call `window.shell.listWindowsJson()`, `listWorkspacesJson()`, `getTrayIconsJson()`

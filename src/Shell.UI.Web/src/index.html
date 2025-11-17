@@ -2,12 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Shelled UI Placeholder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shelled Desktop</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main>
-    <h1>Shelled UI</h1>
-    <p>This is a placeholder web UI project for the Shelled desktop environment.</p>
-  </main>
+  <div id="desktop">
+    <header id="top-panel" class="glass-panel">
+      <div class="panel-section">
+        <span class="brand">Shelled</span>
+        <span class="divider" aria-hidden="true">•</span>
+        <span class="hint">Web desktop preview</span>
+      </div>
+      <div class="panel-section panel-section-right">
+        <span id="status-text" class="status-chip" aria-live="polite">Disconnected</span>
+        <time id="clock" aria-live="polite">--:--</time>
+      </div>
+    </header>
+
+    <section id="desktop-space" aria-label="Desktop wallpaper">
+      <p class="placeholder-text">
+        This area hosts wallpapers and desktop widgets. Use the launcher button to explore the mock environment.
+      </p>
+    </section>
+
+    <section id="workspace-strip" aria-label="Workspace switcher"></section>
+
+    <footer id="taskbar" class="glass-panel">
+      <button id="launcher-toggle" class="btn-icon btn-icon--lg" aria-label="Open launcher" aria-haspopup="true" aria-controls="launcher-overlay">
+        ☰
+      </button>
+      <div id="taskbar-windows" class="taskbar-section" aria-label="Open windows"></div>
+      <div id="tray-icons" class="taskbar-section tray" aria-label="System tray"></div>
+    </footer>
+  </div>
+
+  <div id="launcher-overlay" class="overlay-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="launcher-panel panel">
+      <div class="launcher-header">
+        <h2>Launcher</h2>
+        <button id="launcher-close" class="btn-icon" aria-label="Close launcher">×</button>
+      </div>
+      <div id="launcher-grid" class="launcher-grid" aria-label="Pinned applications"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
 </body>
 </html>

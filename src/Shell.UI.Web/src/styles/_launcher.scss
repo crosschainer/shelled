@@ -1,0 +1,57 @@
+@use "./components/cards";
+@use "./components/surfaces";
+
+#launcher-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  @include surfaces.overlay-backdrop();
+}
+
+#launcher-overlay.open {
+  display: flex;
+}
+
+.launcher-panel {
+  @include surfaces.panel(24px, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+  width: min(960px, 90vw);
+}
+
+.launcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.launcher-card {
+  @include cards.card(16px, 16px, 0.15, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 16px;
+}
+
+.launcher-card strong {
+  font-size: 1rem;
+}
+
+.launcher-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

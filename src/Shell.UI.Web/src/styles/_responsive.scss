@@ -1,0 +1,15 @@
+@media (max-width: 720px) {
+  #top-panel,
+  #taskbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #desktop-space {
+    padding: 24px;
+  }
+
+  .taskbar-item {
+    min-width: 96px;
+  }
+}

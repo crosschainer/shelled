@@ -1,0 +1,41 @@
+@use "./components/chips";
+@use "./components/surfaces";
+
+#top-panel {
+  @include surfaces.glass-panel(0 24px, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 56px;
+  border-width: 0 0 1px;
+}
+
+.panel-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-section-right {
+  gap: 16px;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.status-chip {
+  @include chips.chip(rgba(88, 166, 255, 0.15), rgba(88, 166, 255, 0.4), var(--accent));
+}
+
+#clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+}
