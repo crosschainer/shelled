@@ -121,6 +121,11 @@ public interface ITrayHost
     event Action<string, TrayClickType>? TrayIconClicked;
 
     /// <summary>
+    /// Event fired when a balloon notification is shown for a tray icon
+    /// </summary>
+    event Action<string, TrayBalloonInfo>? TrayBalloonShown;
+
+    /// <summary>
     /// Get all current tray icons
     /// </summary>
     IEnumerable<TrayIcon> GetTrayIcons();

@@ -75,6 +75,7 @@ public class MockTrayHost : ITrayHost
     public event Action<TrayIcon>? TrayIconUpdated;
     public event Action<string>? TrayIconRemoved;
     public event Action<string, TrayClickType>? TrayIconClicked;
+    public event Action<string, TrayBalloonInfo>? TrayBalloonShown;
     public event Action<string, string>? TrayMenuItemClicked;
 
     public IEnumerable<TrayIcon> GetTrayIcons() => _trayIcons.Values;
@@ -84,7 +85,7 @@ public class MockTrayHost : ITrayHost
         // Mock implementation - just update the tray icon's balloon info
         if (_trayIcons.TryGetValue(trayIconId, out var trayIcon))
         {
-            trayIcon.BalloonInfo = new TrayBalloonInfo
+            var balloonInfo = new TrayBalloonInfo
             {
                 Title = title,
                 Text = text,
@@ -92,6 +93,8 @@ public class MockTrayHost : ITrayHost
                 TimeoutMs = timeoutMs,
                 ShowTime = DateTime.UtcNow
             };
+            trayIcon.BalloonInfo = balloonInfo;
+            TrayBalloonShown?.Invoke(trayIconId, balloonInfo);
         }
     }
 

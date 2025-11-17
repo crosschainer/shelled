@@ -89,7 +89,7 @@
 
 ### 3.1 Window System Adapter
 
-- [ ] `ADAPT-WS-01` Define `IWindowSystem` interface:
+- [x] `ADAPT-WS-01` Define `IWindowSystem` interface:
   - `EnumWindows()`
   - `IsTopLevelWindow(hwnd)`
   - `GetWindowInfo(hwnd) → ShellWindow snapshot`
@@ -97,7 +97,7 @@
   - `SetForegroundWindow(hwnd)`
   - `IsVisible(hwnd)`
   - Hook registration methods for shell events (`OnWindowCreated`, `OnWindowDestroyed`, `OnWindowActivated`, etc.)
-  - `status:todo`
+  - `status:done`
 
 - [x] `ADAPT-WS-02` Implement `WindowSystemWin32` using:
   - `EnumWindows`, `GetWindowText`, `GetClassName`, `GetWindowThreadProcessId`
@@ -159,7 +159,7 @@
 #### Tests
 
 - [ ] `TEST-INT-TRAY-01` Integration: when an app adds a tray icon, Core emits `TrayIconAddedEvent` and state reflects it  
-  - `status:todo`
+  - `status:in-progress`
 
 - [ ] `TEST-INT-TRAY-02` Integration: clicking a tray icon in UI calls back into Core and triggers appropriate callbacks to the app  
   - (depends on UI work; cross-section test)  

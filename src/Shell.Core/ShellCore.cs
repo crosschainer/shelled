@@ -205,6 +205,7 @@ public class ShellCore : IDisposable
         _trayHost.TrayIconUpdated += OnTrayIconUpdated;
         _trayHost.TrayIconRemoved += OnTrayIconRemoved;
         _trayHost.TrayIconClicked += OnTrayIconClicked;
+        _trayHost.TrayBalloonShown += OnTrayBalloonShown;
     }
 
     private void InitializeState()
@@ -328,6 +329,11 @@ public class ShellCore : IDisposable
         _eventPublisher.Publish(new TrayIconClickedEvent(trayIconId, clickType));
     }
 
+    private void OnTrayBalloonShown(string trayIconId, TrayBalloonInfo balloonInfo)
+    {
+        _eventPublisher.Publish(new TrayBalloonShownEvent(trayIconId, balloonInfo));
+    }
+
     private void AddWindowToState(ShellWindow window)
     {
         // Assign to active workspace if not already assigned
@@ -365,6 +371,7 @@ public class ShellCore : IDisposable
         _trayHost.TrayIconUpdated -= OnTrayIconUpdated;
         _trayHost.TrayIconRemoved -= OnTrayIconRemoved;
         _trayHost.TrayIconClicked -= OnTrayIconClicked;
+        _trayHost.TrayBalloonShown -= OnTrayBalloonShown;
 
         _disposed = true;
     }
