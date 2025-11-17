@@ -89,6 +89,77 @@ internal static class Win32Api
     // GetWindow constants
     public const uint GW_OWNER = 4;
 
+    // Shell_NotifyIcon API
+    [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+    public static extern bool Shell_NotifyIcon(uint dwMessage, ref NOTIFYICONDATA lpData);
+
+    // Shell_NotifyIcon messages
+    public const uint NIM_ADD = 0x00000000;
+    public const uint NIM_MODIFY = 0x00000001;
+    public const uint NIM_DELETE = 0x00000002;
+    public const uint NIM_SETFOCUS = 0x00000003;
+    public const uint NIM_SETVERSION = 0x00000004;
+
+    // NOTIFYICONDATA flags
+    public const uint NIF_MESSAGE = 0x00000001;
+    public const uint NIF_ICON = 0x00000002;
+    public const uint NIF_TIP = 0x00000004;
+    public const uint NIF_STATE = 0x00000008;
+    public const uint NIF_INFO = 0x00000010;
+    public const uint NIF_GUID = 0x00000020;
+    public const uint NIF_REALTIME = 0x00000040;
+    public const uint NIF_SHOWTIP = 0x00000080;
+
+    // Balloon notification icons
+    public const uint NIIF_NONE = 0x00000000;
+    public const uint NIIF_INFO = 0x00000001;
+    public const uint NIIF_WARNING = 0x00000002;
+    public const uint NIIF_ERROR = 0x00000003;
+    public const uint NIIF_USER = 0x00000004;
+
+    // Tray icon messages
+    public const uint WM_USER = 0x0400;
+    public const uint WM_TRAYICON = WM_USER + 1;
+
+    // Mouse messages for tray icons
+    public const uint WM_LBUTTONDOWN = 0x0201;
+    public const uint WM_LBUTTONUP = 0x0202;
+    public const uint WM_LBUTTONDBLCLK = 0x0203;
+    public const uint WM_RBUTTONDOWN = 0x0204;
+    public const uint WM_RBUTTONUP = 0x0205;
+    public const uint WM_RBUTTONDBLCLK = 0x0206;
+
+    // Window messages
+    [DllImport("user32.dll")]
+    public static extern IntPtr CreateWindowEx(
+        uint dwExStyle,
+        string lpClassName,
+        string lpWindowName,
+        uint dwStyle,
+        int x, int y, int nWidth, int nHeight,
+        IntPtr hWndParent,
+        IntPtr hMenu,
+        IntPtr hInstance,
+        IntPtr lpParam);
+
+    [DllImport("user32.dll")]
+    public static extern bool DestroyWindow(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
+    public static extern IntPtr DefWindowProc(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    public static extern ushort RegisterClass(ref WNDCLASS lpWndClass);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
+
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+    // Window procedure delegate
+    public delegate IntPtr WndProc(IntPtr hWnd, uint uMsg, IntPtr wParam, IntPtr lParam);
+
     // Structures
     [StructLayout(LayoutKind.Sequential)]
     public struct RECT
@@ -97,5 +168,43 @@ internal static class Win32Api
         public int Top;
         public int Right;
         public int Bottom;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct NOTIFYICONDATA
+    {
+        public uint cbSize;
+        public IntPtr hWnd;
+        public uint uID;
+        public uint uFlags;
+        public uint uCallbackMessage;
+        public IntPtr hIcon;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public string szTip;
+        public uint dwState;
+        public uint dwStateMask;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
+        public string szInfo;
+        public uint uTimeoutOrVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
+        public string szInfoTitle;
+        public uint dwInfoFlags;
+        public Guid guidItem;
+        public IntPtr hBalloonIcon;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    public struct WNDCLASS
+    {
+        public uint style;
+        public WndProc lpfnWndProc;
+        public int cbClsExtra;
+        public int cbWndExtra;
+        public IntPtr hInstance;
+        public IntPtr hIcon;
+        public IntPtr hCursor;
+        public IntPtr hbrBackground;
+        public string lpszMenuName;
+        public string lpszClassName;
     }
 }

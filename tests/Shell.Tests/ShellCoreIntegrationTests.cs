@@ -155,6 +155,9 @@ public class ShellCoreIntegrationTests : IDisposable
     [Fact]
     public void ShellCore_SafeMode_PreventsActualSystemChanges()
     {
+        // Ensure we're in test mode for this test
+        Environment.SetEnvironmentVariable("SHELL_TEST_MODE", "1");
+        
         // Assert that we're in safe mode
         Assert.True(ShellConfiguration.IsTestMode);
         Assert.True(ShellConfiguration.DisableDangerousOperations);
