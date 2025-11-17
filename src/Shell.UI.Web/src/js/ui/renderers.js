@@ -80,7 +80,28 @@ export function createRenderer(selectors) {
       button.dataset.trayId = icon.id;
       button.title = icon.tooltip ?? icon.title ?? icon.id;
       button.setAttribute('aria-label', icon.tooltip ?? icon.title ?? icon.id);
-      button.textContent = icon.emoji ?? icon.title?.charAt(0) ?? '•';
+      
+      // Handle different icon types
+      if (icon.iconData) {
+        // If we have icon data (base64), create an image
+        const img = document.createElement('img');
+        img.src = `data:image/png;base64,${icon.iconData}`;
+        img.alt = icon.tooltip ?? icon.title ?? icon.id;
+        img.className = 'tray-icon-image';
+        button.appendChild(img);
+      } else if (icon.emoji) {
+        // Use emoji if available
+        button.textContent = icon.emoji;
+      } else {
+        // Fallback to first letter or generic icon
+        button.textContent = icon.title?.charAt(0)?.toUpperCase() ?? '•';
+      }
+      
+      // Add visual state indicators
+      if (!icon.isVisible) {
+        button.classList.add('hidden-tray-icon');
+      }
+      
       return button;
     });
     selectors.trayIcons.replaceChildren(...nodes);

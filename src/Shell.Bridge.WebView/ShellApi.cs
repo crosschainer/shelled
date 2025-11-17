@@ -201,6 +201,67 @@ public class ShellApi : IDisposable
     }
 
     /// <summary>
+    /// Restore a minimized window by handle
+    /// </summary>
+    public bool RestoreWindow(string hwndString)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(hwndString))
+                return false;
+
+            if (IntPtr.TryParse(hwndString, out var hwnd))
+            {
+                var state = _shellCore.GetState();
+                if (state.Windows.TryGetValue(hwnd, out var window))
+                {
+                    // Focus the window which should restore it if minimized
+                    _shellCore.FocusWindow(hwnd);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error restoring window '{hwndString}': {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Close a window by handle
+    /// </summary>
+    public bool CloseWindow(string hwndString)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(hwndString))
+                return false;
+
+            if (IntPtr.TryParse(hwndString, out var hwnd))
+            {
+                var state = _shellCore.GetState();
+                if (state.Windows.TryGetValue(hwnd, out var window))
+                {
+                    // This would require adding a CloseWindow method to ShellCore
+                    // For now, we'll return false to indicate it's not implemented
+                    Console.WriteLine($"CloseWindow not yet implemented for window '{hwndString}'");
+                    return false;
+                }
+            }
+
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error closing window '{hwndString}': {ex.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
     /// Switch to a workspace
     /// </summary>
     public bool SwitchWorkspace(string workspaceId)

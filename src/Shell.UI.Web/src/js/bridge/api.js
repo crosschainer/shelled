@@ -198,6 +198,30 @@ class ShellBridge {
   }
 
   /**
+   * Restore a minimized window
+   */
+  async restoreWindow(hwnd) {
+    try {
+      return await this.callBridgeMethod('restoreWindow', hwnd);
+    } catch (error) {
+      console.error('Error restoring window:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Close a window
+   */
+  async closeWindow(hwnd) {
+    try {
+      return await this.callBridgeMethod('closeWindow', hwnd);
+    } catch (error) {
+      console.error('Error closing window:', error);
+      return false;
+    }
+  }
+
+  /**
    * Switch to a workspace
    */
   async switchWorkspace(workspaceId) {

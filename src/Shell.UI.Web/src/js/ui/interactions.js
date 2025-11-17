@@ -38,8 +38,17 @@ export function wireInteractions(selectors, store) {
     if (!target) return;
     
     const hwnd = target.dataset.hwnd;
+    const state = store.getState();
+    const window = state.windows.find(w => w.hwnd === hwnd);
+    
+    if (!window) return;
     
     try {
+      // If window is minimized, restore it first
+      if (window.state === 'minimized') {
+        await shellBridge.restoreWindow(hwnd);
+      }
+      
       // Use bridge API to focus window
       const success = await shellBridge.focusWindow(hwnd);
       if (success) {
@@ -55,6 +64,21 @@ export function wireInteractions(selectors, store) {
       // Fallback to local state update
       store.setFocusedWindow(hwnd);
     }
+  });
+
+  // Add right-click context menu for taskbar items
+  selectors.taskbarWindows.addEventListener('contextmenu', (event) => {
+    const target = event.target.closest('[data-hwnd]');
+    if (!target) return;
+    
+    event.preventDefault();
+    const hwnd = target.dataset.hwnd;
+    const state = store.getState();
+    const window = state.windows.find(w => w.hwnd === hwnd);
+    
+    if (!window) return;
+    
+    showTaskbarContextMenu(event, hwnd, window, store);
   });
 
   selectors.trayIcons.addEventListener('click', async (event) => {
@@ -73,6 +97,27 @@ export function wireInteractions(selectors, store) {
       }
     } catch (error) {
       console.error('Error handling tray icon click:', error);
+    }
+  });
+
+  // Add right-click support for tray icons
+  selectors.trayIcons.addEventListener('contextmenu', async (event) => {
+    const target = event.target.closest('[data-tray-id]');
+    if (!target) return;
+    
+    event.preventDefault();
+    const trayId = target.dataset.trayId;
+    
+    try {
+      // Use bridge API to handle tray icon right-click
+      const success = await shellBridge.trayIconClick(trayId, 'right');
+      if (success) {
+        console.log('Tray icon right-clicked:', trayId);
+      } else {
+        console.error('Failed to handle tray icon right-click:', trayId);
+      }
+    } catch (error) {
+      console.error('Error handling tray icon right-click:', error);
     }
   });
 
@@ -137,4 +182,103 @@ export function wireInteractions(selectors, store) {
       }
     }
   });
+}
+
+/**
+ * Show context menu for taskbar items
+ */
+function showTaskbarContextMenu(event, hwnd, window, store) {
+  // Remove any existing context menu
+  const existingMenu = document.querySelector('.taskbar-context-menu');
+  if (existingMenu) {
+    existingMenu.remove();
+  }
+
+  // Create context menu
+  const menu = document.createElement('div');
+  menu.className = 'taskbar-context-menu';
+  menu.style.position = 'fixed';
+  menu.style.left = `${event.clientX}px`;
+  menu.style.top = `${event.clientY}px`;
+  menu.style.zIndex = '10000';
+
+  const menuItems = [];
+
+  // Restore/Minimize based on current state
+  if (window.state === 'minimized') {
+    menuItems.push({
+      label: 'Restore',
+      action: () => shellBridge.restoreWindow(hwnd)
+    });
+  } else {
+    menuItems.push({
+      label: 'Minimize',
+      action: () => shellBridge.minimizeWindow(hwnd)
+    });
+  }
+
+  // Always show focus option
+  menuItems.push({
+    label: 'Focus',
+    action: () => shellBridge.focusWindow(hwnd)
+  });
+
+  // Close option (disabled for now since not fully implemented)
+  menuItems.push({
+    label: 'Close',
+    action: () => shellBridge.closeWindow(hwnd),
+    disabled: true
+  });
+
+  // Create menu HTML
+  menu.innerHTML = `
+    <div class="context-menu-content">
+      ${menuItems.map(item => `
+        <button type="button" class="context-menu-item" 
+                ${item.disabled ? 'disabled' : ''}>
+          ${item.label}
+        </button>
+      `).join('')}
+    </div>
+  `;
+
+  // Add event listeners
+  const buttons = menu.querySelectorAll('.context-menu-item:not([disabled])');
+  buttons.forEach((button, index) => {
+    const item = menuItems.filter(item => !item.disabled)[index];
+    if (item) {
+      button.addEventListener('click', async () => {
+        try {
+          await item.action();
+        } catch (error) {
+          console.error('Error executing context menu action:', error);
+        }
+        menu.remove();
+      });
+    }
+  });
+
+  // Close menu when clicking outside
+  const closeMenu = (e) => {
+    if (!menu.contains(e.target)) {
+      menu.remove();
+      document.removeEventListener('click', closeMenu);
+    }
+  };
+
+  document.body.appendChild(menu);
+  
+  // Add close handler after a brief delay to prevent immediate closure
+  setTimeout(() => {
+    document.addEventListener('click', closeMenu);
+  }, 10);
+
+  // Close on escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      menu.remove();
+      document.removeEventListener('keydown', handleEscape);
+    }
+  };
+  document.addEventListener('keydown', handleEscape);
 }

@@ -55,4 +55,79 @@
 
 .tray-button {
   font-size: 1rem;
+  position: relative;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.hidden-tray-icon {
+    opacity: 0.5;
+  }
+}
+
+.tray-icon-image {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: brightness(0.9);
+  transition: filter 0.15s ease;
+
+  .tray-button:hover & {
+    filter: brightness(1.1);
+  }
+}
+
+// Context menu for taskbar items
+.taskbar-context-menu {
+  @include surfaces.glass-panel(0, 8px);
+  border: 1px solid var(--border);
+  min-width: 120px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: contextMenuFadeIn 0.15s ease-out;
+}
+
+.context-menu-content {
+  padding: 4px;
+}
+
+.context-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+
+  &:hover:not([disabled]) {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &[disabled] {
+    color: var(--muted);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+@keyframes contextMenuFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
