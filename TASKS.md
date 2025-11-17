@@ -361,10 +361,10 @@ These use **real Core + real UI + real adapters**.
   - E2E tests (automation)
   - `status:done`
 
-- [ ] `DOC-03` `SHELL_SETUP.md`: how to:
+- [x] `DOC-03` `SHELL_SETUP.md`: how to:
   - run shell on top of Explorer (dev mode)
   - register as Winlogon shell (test user only)
   - revert to Explorer
-  - `status:todo`
+  - `status:done`
 
 ---
