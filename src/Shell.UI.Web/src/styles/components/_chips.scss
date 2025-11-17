@@ -1,0 +1,16 @@
+@mixin chip($bg: rgba(255, 255, 255, 0.08), $border: rgba(255, 255, 255, 0.2), $text: var(--panel-text)) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid $border;
+  background: $bg;
+  color: $text;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.chip {
+  @include chip();
+}

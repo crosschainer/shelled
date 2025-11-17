@@ -1,0 +1,15 @@
+@mixin card($padding: 16px, $radius: 16px, $border-opacity: 0.15, $bg-opacity: 0.05) {
+  border: 1px solid rgba(255, 255, 255, $border-opacity);
+  border-radius: $radius;
+  background: rgba(255, 255, 255, $bg-opacity);
+  padding: $padding;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.card {
+  @include card();
+}
+
+.card--app {
+  @include card(16px, 16px, 0.15, 0.08);
+}

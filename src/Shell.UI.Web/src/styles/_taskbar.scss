@@ -1,0 +1,58 @@
+@use "./components/cards";
+@use "./components/surfaces";
+
+#taskbar {
+  @include surfaces.glass-panel(12px 20px, 0);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-width: 1px 0 0;
+}
+
+.taskbar-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#taskbar-windows {
+  flex: 1;
+  overflow-x: auto;
+}
+
+.taskbar-item {
+  @include cards.card(8px 14px, 12px, 0.15, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  box-shadow: none;
+}
+
+.taskbar-item .title {
+  font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.taskbar-item .badge {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.taskbar-item.focused {
+  border-color: var(--accent);
+  background: rgba(88, 166, 255, 0.15);
+}
+
+.tray {
+  justify-content: flex-end;
+}
+
+.tray-button {
+  font-size: 1rem;
+}

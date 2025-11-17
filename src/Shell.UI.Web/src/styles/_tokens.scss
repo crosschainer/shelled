@@ -1,0 +1,11 @@
+:root {
+  font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  color-scheme: dark;
+  --bg: radial-gradient(circle at top, #1f2a44, #0c111f 55%);
+  --panel: rgba(15, 22, 38, 0.85);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --panel-text: #e3e8ff;
+  --accent: #58a6ff;
+  --muted: rgba(227, 232, 255, 0.6);
+  --danger: #ff7878;
+}

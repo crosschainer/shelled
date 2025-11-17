@@ -1,0 +1,28 @@
+@mixin panel($padding: 16px, $radius: 16px) {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: $radius;
+  padding: $padding;
+}
+
+@mixin glass-panel($padding: 16px, $radius: 16px, $blur: 16px) {
+  @include panel($padding, $radius);
+  backdrop-filter: blur($blur);
+}
+
+@mixin overlay-backdrop($bg: rgba(3, 5, 12, 0.85), $blur: 8px) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+}
+
+.panel {
+  @include panel();
+}
+
+.glass-panel {
+  @include glass-panel();
+}
+
+.overlay-backdrop {
+  @include overlay-backdrop();
+}
