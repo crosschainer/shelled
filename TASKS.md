@@ -33,16 +33,16 @@
 
 ## 1. Repository & Project Setup
 
-- [ ] `SETUP-01` Create solution / workspace for:
+- [x] `SETUP-01` Create solution / workspace for:
   - `Shell.Core` (domain logic)
   - `Shell.Adapters.Win32` (OS adapters)
   - `Shell.Bridge.WebView` (native UI host + bridge)
   - `Shell.UI.Web` (HTML/CSS/JS frontend)
   - `Shell.Tests` (unit + integration)
-  - `status:todo`
+  - `status:done`
 
-- [ ] `SETUP-02` Add test framework (e.g. xUnit/NUnit) and basic CI workflow (Windows runner)  
-  - `status:todo`
+- [x] `SETUP-02` Add test framework (e.g. xUnit/NUnit) and basic CI workflow (Windows runner)
+  - `status:done`
 
 - [ ] `SETUP-03` Add “test mode” flag env var (`SHELL_TEST_MODE`) to disable shell registration and dangerous behavior in tests  
   - `status:todo`
