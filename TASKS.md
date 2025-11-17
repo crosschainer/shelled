@@ -351,15 +351,15 @@ These use **real Core + real UI + real adapters**.
 
 ## 9. Documentation
 
-- [ ] `DOC-01` `ARCHITECTURE.md`: explain layered design (Core, Adapters, UI Host, Web UI, Tests)  
-  - `status:todo`
+- [x] `DOC-01` `ARCHITECTURE.md`: explain layered design (Core, Adapters, UI Host, Web UI, Tests)
+  - `status:done`
 
-- [ ] `DOC-02` `TESTING.md`: describe how to run:
+- [x] `DOC-02` `TESTING.md`: describe how to run:
   - unit tests (domain)
   - integration tests (Core + adapters + helper apps)
   - UI integration tests (WebView2 + FakeCore)
   - E2E tests (automation)
-  - `status:todo`
+  - `status:done`
 
 - [ ] `DOC-03` `SHELL_SETUP.md`: how to:
   - run shell on top of Explorer (dev mode)
