@@ -75,8 +75,34 @@ public class MockTrayHost : ITrayHost
     public event Action<TrayIcon>? TrayIconUpdated;
     public event Action<string>? TrayIconRemoved;
     public event Action<string, TrayClickType>? TrayIconClicked;
+    public event Action<string, string>? TrayMenuItemClicked;
 
     public IEnumerable<TrayIcon> GetTrayIcons() => _trayIcons.Values;
+
+    public void ShowBalloonNotification(string trayIconId, string title, string text, TrayBalloonIcon icon = TrayBalloonIcon.None, int timeoutMs = 5000)
+    {
+        // Mock implementation - just update the tray icon's balloon info
+        if (_trayIcons.TryGetValue(trayIconId, out var trayIcon))
+        {
+            trayIcon.BalloonInfo = new TrayBalloonInfo
+            {
+                Title = title,
+                Text = text,
+                Icon = icon,
+                TimeoutMs = timeoutMs,
+                ShowTime = DateTime.UtcNow
+            };
+        }
+    }
+
+    public void UpdateTrayIconMenu(string trayIconId, TrayMenu menu)
+    {
+        // Mock implementation - just update the tray icon's menu
+        if (_trayIcons.TryGetValue(trayIconId, out var trayIcon))
+        {
+            trayIcon.Menu = menu;
+        }
+    }
 
     // Test helper methods
     public void SimulateTrayIconAdded(TrayIcon trayIcon)
@@ -99,6 +125,11 @@ public class MockTrayHost : ITrayHost
     public void SimulateTrayIconClicked(string trayIconId, TrayClickType clickType)
     {
         TrayIconClicked?.Invoke(trayIconId, clickType);
+    }
+
+    public void SimulateTrayMenuItemClicked(string trayIconId, string menuItemId)
+    {
+        TrayMenuItemClicked?.Invoke(trayIconId, menuItemId);
     }
 }
 

@@ -205,3 +205,46 @@ public class TrayIconClickedEvent : ShellEvent
     }
 }
 
+/// <summary>
+/// Event fired when a balloon notification is shown for a tray icon
+/// </summary>
+public class TrayBalloonShownEvent : ShellEvent
+{
+    public string TrayIconId { get; }
+    public TrayBalloonInfo BalloonInfo { get; }
+
+    public TrayBalloonShownEvent(string trayIconId, TrayBalloonInfo balloonInfo)
+    {
+        TrayIconId = trayIconId;
+        BalloonInfo = balloonInfo;
+    }
+}
+
+/// <summary>
+/// Event fired when a balloon notification is clicked
+/// </summary>
+public class TrayBalloonClickedEvent : ShellEvent
+{
+    public string TrayIconId { get; }
+
+    public TrayBalloonClickedEvent(string trayIconId)
+    {
+        TrayIconId = trayIconId;
+    }
+}
+
+/// <summary>
+/// Event fired when a tray menu item is clicked
+/// </summary>
+public class TrayMenuItemClickedEvent : ShellEvent
+{
+    public string TrayIconId { get; }
+    public string MenuItemId { get; }
+
+    public TrayMenuItemClickedEvent(string trayIconId, string menuItemId)
+    {
+        TrayIconId = trayIconId;
+        MenuItemId = menuItemId;
+    }
+}
+

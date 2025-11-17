@@ -49,9 +49,56 @@ public class TrayIcon
     public int ProcessId { get; set; }
     public string Tooltip { get; set; } = string.Empty;
     public byte[]? IconData { get; set; }
+    public IntPtr IconHandle { get; set; } = IntPtr.Zero;
     public bool IsVisible { get; set; } = true;
+    public TrayMenu? Menu { get; set; }
+    public TrayBalloonInfo? BalloonInfo { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
+}
+
+/// <summary>
+/// Represents a tray icon context menu
+/// </summary>
+public class TrayMenu
+{
+    public List<TrayMenuItem> Items { get; set; } = new();
+}
+
+/// <summary>
+/// Represents a tray menu item
+/// </summary>
+public class TrayMenuItem
+{
+    public string Id { get; set; } = string.Empty;
+    public string Text { get; set; } = string.Empty;
+    public bool IsEnabled { get; set; } = true;
+    public bool IsChecked { get; set; } = false;
+    public bool IsSeparator { get; set; } = false;
+    public List<TrayMenuItem> SubItems { get; set; } = new();
+}
+
+/// <summary>
+/// Represents balloon notification information for a tray icon
+/// </summary>
+public class TrayBalloonInfo
+{
+    public string Title { get; set; } = string.Empty;
+    public string Text { get; set; } = string.Empty;
+    public TrayBalloonIcon Icon { get; set; } = TrayBalloonIcon.None;
+    public int TimeoutMs { get; set; } = 5000;
+    public DateTime? ShowTime { get; set; }
+}
+
+/// <summary>
+/// Types of balloon notification icons
+/// </summary>
+public enum TrayBalloonIcon
+{
+    None,
+    Info,
+    Warning,
+    Error
 }
 
 /// <summary>

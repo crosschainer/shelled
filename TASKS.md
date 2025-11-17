@@ -148,9 +148,9 @@
 
 ### 3.4 Tray Host
 
-- [ ] `ADAPT-TRAY-01` Define `ITrayHost` and tray icon model:
+- [x] `ADAPT-TRAY-01` Define `ITrayHost` and tray icon model:
   - Used to store icon handle / image, tooltip, menu info, balloon notifications
-  - `status:todo`
+  - `status:done`
 
 - [ ] `ADAPT-TRAY-02` Implement tray host window handling `Shell_NotifyIcon` (NIM_ADD / NIM_MODIFY / NIM_DELETE)
   - Translate into domain events and update `ShellState.trayIcons`

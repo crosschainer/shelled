@@ -124,6 +124,21 @@ public interface ITrayHost
     /// Get all current tray icons
     /// </summary>
     IEnumerable<TrayIcon> GetTrayIcons();
+
+    /// <summary>
+    /// Show a balloon notification for a tray icon
+    /// </summary>
+    void ShowBalloonNotification(string trayIconId, string title, string text, TrayBalloonIcon icon = TrayBalloonIcon.None, int timeoutMs = 5000);
+
+    /// <summary>
+    /// Update a tray icon's menu
+    /// </summary>
+    void UpdateTrayIconMenu(string trayIconId, TrayMenu menu);
+
+    /// <summary>
+    /// Event fired when a tray menu item is clicked
+    /// </summary>
+    event Action<string, string>? TrayMenuItemClicked; // trayIconId, menuItemId
 }
 
 /// <summary>
