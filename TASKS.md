@@ -53,35 +53,35 @@
 
 ### 2.1 Core State & Events
 
-- [ ] `CORE-01` Define domain models:
+- [x] `CORE-01` Define domain models:
   - `ShellWindow` (hwnd, title, processId, workspaceId, state, isVisible, appId, etc.)
   - `Workspace` (id, name, list of window handles)
   - `ShellState` (windows[], workspaces[], activeWorkspaceId, focusedWindowHandle, trayIcons[], etc.)
-  - `status:todo`
+  - `status:done`
 
-- [ ] `CORE-02` Define domain events:
+- [x] `CORE-02` Define domain events:
   - `WindowCreatedEvent`, `WindowDestroyedEvent`, `WindowStateChangedEvent`
   - `WorkspaceSwitchedEvent`, `WorkspaceUpdatedEvent`
   - `TrayIconAddedEvent`, `TrayIconUpdatedEvent`, `TrayIconRemovedEvent`
-  - `status:todo`
+  - `status:done`
 
-- [ ] `CORE-03` Implement `ShellCore` state machine (no Win32; uses interfaces only):
+- [x] `CORE-03` Implement `ShellCore` state machine (no Win32; uses interfaces only):
   - consumes adapter events
   - updates internal `ShellState`
   - emits domain events to subscribers
-  - `status:todo`
+  - `status:done`
 
 #### Tests (Domain Logic)
 
-- [ ] `TEST-CORE-01` Unit tests: window creation/destruction updates state correctly  
+- [x] `TEST-CORE-01` Unit tests: window creation/destruction updates state correctly  
   - e.g. feed “window created” → state has new window → emit `WindowCreatedEvent`  
-  - `status:todo`
+  - `status:done`
 
-- [ ] `TEST-CORE-02` Unit tests: workspace switching hides/shows windows in state (flags only, no Win32)  
-  - `status:todo`
+- [x] `TEST-CORE-02` Unit tests: workspace switching hides/shows windows in state (flags only, no Win32)  
+  - `status:done`
 
-- [ ] `TEST-CORE-03` Unit tests: tray icon add/update/remove events update `ShellState.trayIcons` and emit events  
-  - `status:todo`
+- [x] `TEST-CORE-03` Unit tests: tray icon add/update/remove events update `ShellState.trayIcons` and emit events  
+  - `status:done`
 
 ---
 
