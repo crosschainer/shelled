@@ -158,8 +158,8 @@
 
 #### Tests
 
-- [ ] `TEST-INT-TRAY-01` Integration: when an app adds a tray icon, Core emits `TrayIconAddedEvent` and state reflects it  
-  - `status:in-progress`
+- [x] `TEST-INT-TRAY-01` Integration: when an app adds a tray icon, Core emits `TrayIconAddedEvent` and state reflects it  
+  - `status:done`
 
 - [ ] `TEST-INT-TRAY-02` Integration: clicking a tray icon in UI calls back into Core and triggers appropriate callbacks to the app  
   - (depends on UI work; cross-section test)  
