@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Shell.Core\Shell.Core.csproj" />
+    <ProjectReference Include="..\..\src\Shell.Adapters.Win32\Shell.Adapters.Win32.csproj" />
   </ItemGroup>
 
 </Project>

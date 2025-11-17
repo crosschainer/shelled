@@ -44,8 +44,8 @@
 - [x] `SETUP-02` Add test framework (e.g. xUnit/NUnit) and basic CI workflow (Windows runner)
   - `status:done`
 
-- [ ] `SETUP-03` Add “test mode” flag env var (`SHELL_TEST_MODE`) to disable shell registration and dangerous behavior in tests  
-  - `status:todo`
+- [x] `SETUP-03` Add “test mode” flag env var (`SHELL_TEST_MODE`) to disable shell registration and dangerous behavior in tests  
+  - `status:done`
 
 ---
 
@@ -99,34 +99,34 @@
   - Hook registration methods for shell events (`OnWindowCreated`, `OnWindowDestroyed`, `OnWindowActivated`, etc.)
   - `status:todo`
 
-- [ ] `ADAPT-WS-02` Implement `WindowSystemWin32` using:
+- [x] `ADAPT-WS-02` Implement `WindowSystemWin32` using:
   - `EnumWindows`, `GetWindowText`, `GetClassName`, `GetWindowThreadProcessId`
   - `SetWinEventHook` or `SetWindowsHookEx(WH_SHELL)` for window creation/destruction/activation
-  - `status:todo`
+  - `status:done`
 
 #### Tests (Core + Real Win32)
 
-- [ ] `TEST-INT-WS-01` Integration: Core detects new window when a helper app creates one
+- [x] `TEST-INT-WS-01` Integration: Core detects new window when a helper app creates one
   - Use real `WindowSystemWin32` and `ProcessLauncherWin32`
   - Launch `FakeApp.exe` which creates a top-level window with known title
   - Assert `ShellCore` emits `WindowCreatedEvent`  
-  - `status:todo`
+  - `status:done`
 
-- [ ] `TEST-INT-WS-02` Integration: Core detects window close when helper app exits
-  - `status:todo`
+- [x] `TEST-INT-WS-02` Integration: Core detects window close when helper app exits
+  - `status:done`
 
 - [ ] `TEST-INT-WS-03` Integration: Core tracks focus changes when user activates another window (trigger via test automation or simulated calls)  
   - `status:todo`
 
 ### 3.2 Process Launcher
 
-- [ ] `ADAPT-PL-01` Define `IProcessLauncher` interface:
+- [x] `ADAPT-PL-01` Define `IProcessLauncher` interface:
   - `LaunchApp(appIdOrPath)`
   - `GetRunningProcesses()`
-  - `status:todo`
+  - `status:done`
 
-- [ ] `ADAPT-PL-02` Implement `ProcessLauncherWin32` using `ShellExecuteEx` / `CreateProcess`  
-  - `status:todo`
+- [x] `ADAPT-PL-02` Implement `ProcessLauncherWin32` using `ShellExecuteEx` / `CreateProcess`  
+  - `status:done`
 
 #### Tests
 
