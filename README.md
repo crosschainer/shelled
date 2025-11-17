@@ -1,6 +1,6 @@
 # shelled – Explorer Replacement Backbone
 
-This project is a **Windows shell replacement** that aims to fully replace `explorer.exe` as the system shell, while keeping the **UI layer purely HTML/CSS/JS**.
+This project is a **Windows shell replacement** that aims to fully replace `explorer.exe` as the system shell, while keeping the **UI layer purely HTML/CSS/JS** for easy customization.
 
 Think of it as:
 
