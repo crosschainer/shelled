@@ -154,3 +154,27 @@ public class ShellState
             .Where(w => w.IsVisible && w.State != WindowState.Hidden);
     }
 }
+
+/// <summary>
+/// Represents a registered global hotkey
+/// </summary>
+public class Hotkey
+{
+    public string Id { get; set; } = string.Empty;
+    public int Modifiers { get; set; }
+    public int VirtualKey { get; set; }
+    public DateTime RegisteredAt { get; set; } = DateTime.UtcNow;
+}
+
+/// <summary>
+/// Hotkey modifier flags (matches Win32 MOD_* constants)
+/// </summary>
+[Flags]
+public enum HotkeyModifiers
+{
+    None = 0x0000,
+    Alt = 0x0001,
+    Control = 0x0002,
+    Shift = 0x0004,
+    Win = 0x0008
+}

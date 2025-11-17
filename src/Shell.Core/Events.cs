@@ -248,3 +248,22 @@ public class TrayMenuItemClickedEvent : ShellEvent
     }
 }
 
+// Hotkey Events
+
+/// <summary>
+/// Event fired when a registered global hotkey is pressed
+/// </summary>
+public class HotkeyPressedEvent : ShellEvent
+{
+    public string HotkeyId { get; }
+    public int Modifiers { get; }
+    public int VirtualKey { get; }
+
+    public HotkeyPressedEvent(string hotkeyId, int modifiers, int virtualKey)
+    {
+        HotkeyId = hotkeyId;
+        Modifiers = modifiers;
+        VirtualKey = virtualKey;
+    }
+}
+

@@ -167,17 +167,17 @@
 
 ### 3.5 Hotkeys & System Events
 
-- [ ] `ADAPT-HK-01` Implement `IHotkeyRegistry` using `RegisterHotKey`/`UnregisterHotKey`
+- [x] `ADAPT-HK-01` Implement `IHotkeyRegistry` using `RegisterHotKey`/`UnregisterHotKey`
   - Map global shortcuts (e.g. `Win` or `Win+Space` for launcher)
-  - `status:todo`
+  - `status:done`
 
 - [ ] `ADAPT-SYS-01` Implement handling of system events (`WM_QUERYENDSESSION`, `WM_ENDSESSION`) and forward them to Core / UI  
   - `status:todo`
 
 #### Tests
 
-- [ ] `TEST-INT-HK-01` Integration: registering a test hotkey triggers callback in Core; verify Core receives event  
-  - `status:todo`
+- [x] `TEST-INT-HK-01` Integration: registering a test hotkey triggers callback in Core; verify Core receives event  
+  - `status:done`
 
 ---
 

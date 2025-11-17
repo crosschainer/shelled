@@ -194,6 +194,31 @@ public class ShellCore : IDisposable
         _eventPublisher.Publish(new WindowMovedToWorkspaceEvent(windowHandle, previousWorkspaceId, workspaceId));
     }
 
+    /// <summary>
+    /// Register a global hotkey
+    /// </summary>
+    /// <param name="id">Unique identifier for the hotkey</param>
+    /// <param name="modifiers">Modifier keys (HotkeyModifiers flags)</param>
+    /// <param name="virtualKey">Virtual key code</param>
+    /// <returns>True if registration succeeded</returns>
+    public bool RegisterHotkey(string id, HotkeyModifiers modifiers, int virtualKey)
+    {
+        if (string.IsNullOrEmpty(id))
+            throw new ArgumentException("Hotkey ID cannot be null or empty", nameof(id));
+
+        return _hotkeyRegistry.RegisterHotkey(id, (int)modifiers, virtualKey);
+    }
+
+    /// <summary>
+    /// Unregister a global hotkey
+    /// </summary>
+    /// <param name="id">Unique identifier for the hotkey</param>
+    /// <returns>True if unregistration succeeded</returns>
+    public bool UnregisterHotkey(string id)
+    {
+        return _hotkeyRegistry.UnregisterHotkey(id);
+    }
+
     private void SubscribeToAdapterEvents()
     {
         _windowSystem.WindowCreated += OnWindowCreated;
@@ -206,6 +231,8 @@ public class ShellCore : IDisposable
         _trayHost.TrayIconRemoved += OnTrayIconRemoved;
         _trayHost.TrayIconClicked += OnTrayIconClicked;
         _trayHost.TrayBalloonShown += OnTrayBalloonShown;
+
+        _hotkeyRegistry.HotkeyPressed += OnHotkeyPressed;
     }
 
     private void InitializeState()
@@ -334,6 +361,15 @@ public class ShellCore : IDisposable
         _eventPublisher.Publish(new TrayBalloonShownEvent(trayIconId, balloonInfo));
     }
 
+    private void OnHotkeyPressed(string hotkeyId)
+    {
+        // Get the registered hotkey details for the event
+        var modifiers = 0; // We could store this in state if needed
+        var virtualKey = 0; // We could store this in state if needed
+        
+        _eventPublisher.Publish(new HotkeyPressedEvent(hotkeyId, modifiers, virtualKey));
+    }
+
     private void AddWindowToState(ShellWindow window)
     {
         // Assign to active workspace if not already assigned
@@ -372,6 +408,8 @@ public class ShellCore : IDisposable
         _trayHost.TrayIconRemoved -= OnTrayIconRemoved;
         _trayHost.TrayIconClicked -= OnTrayIconClicked;
         _trayHost.TrayBalloonShown -= OnTrayBalloonShown;
+
+        _hotkeyRegistry.HotkeyPressed -= OnHotkeyPressed;
 
         _disposed = true;
     }

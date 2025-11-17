@@ -146,4 +146,10 @@ public class MockHotkeyRegistry : IHotkeyRegistry
     public bool RegisterHotkey(string id, int modifiers, int virtualKey) => true;
 
     public bool UnregisterHotkey(string id) => true;
+
+    // Test helper method
+    public void TriggerHotkey(string id)
+    {
+        HotkeyPressed?.Invoke(id);
+    }
 }
