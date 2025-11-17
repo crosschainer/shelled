@@ -1,6 +1,17 @@
-﻿namespace Shell.Bridge.WebView;
+﻿using System;
+using System.Windows.Forms;
 
-public class Class1
+namespace Shell.Bridge.WebView;
+
+internal static class Program
 {
-
+    [STAThread]
+    static void Main(string[] args)
+    {
+        Application.EnableVisualStyles();
+        Application.SetCompatibleTextRenderingDefault(false);
+        
+        var mainForm = new ShellUiHostForm();
+        Application.Run(mainForm);
+    }
 }

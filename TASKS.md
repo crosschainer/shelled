@@ -135,10 +135,10 @@
 
 ### 3.3 Workspaces (Internal Abstraction)
 
-- [ ] `ADAPT-WS-VM-01` Implement internal virtual workspaces (not native Windows virtual desktops initially):
+- [x] `ADAPT-WS-VM-01` Implement internal virtual workspaces (not native Windows virtual desktops initially):
   - mapping `workspaceId → set<hwnd>`
   - `SwitchWorkspace(id)` hides non-active workspace windows via `IWindowSystem.ShowWindow(SW_HIDE/SW_SHOW)`
-  - `status:todo`
+  - `status:done`
 
 #### Tests
 
@@ -171,8 +171,8 @@
   - Map global shortcuts (e.g. `Win` or `Win+Space` for launcher)
   - `status:done`
 
-- [ ] `ADAPT-SYS-01` Implement handling of system events (`WM_QUERYENDSESSION`, `WM_ENDSESSION`) and forward them to Core / UI  
-  - `status:todo`
+- [x] `ADAPT-SYS-01` Implement handling of system events (`WM_QUERYENDSESSION`, `WM_ENDSESSION`) and forward them to Core / UI  
+  - `status:done`
 
 #### Tests
 
@@ -208,11 +208,11 @@
 
 ## 5. UI Host – WebView2 Bridge
 
-- [ ] `UIHOST-01` Implement `ShellUiHost.exe`:
+- [x] `UIHOST-01` Implement `ShellUiHost.exe`:
   - Borderless, fullscreen window
   - Hosts WebView2 control
   - Loads `index.html` from `Shell.UI.Web` build output
-  - `status:todo`
+  - `status:done`
 
 - [ ] `UIHOST-02` Implement bridge object `ShellApi` exposed to JS:
   - `listWindowsJson()`

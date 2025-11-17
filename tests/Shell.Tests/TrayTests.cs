@@ -14,6 +14,7 @@ public class ShellCoreTrayTests
     private readonly MockProcessLauncher _processLauncher;
     private readonly MockTrayHost _trayHost;
     private readonly MockHotkeyRegistry _hotkeyRegistry;
+    private readonly MockSystemEventHandler _systemEventHandler;
     private readonly EventPublisher _eventPublisher;
     private readonly Shell.Core.ShellCore _shellCore;
     private readonly List<ShellEvent> _capturedEvents;
@@ -24,6 +25,7 @@ public class ShellCoreTrayTests
         _processLauncher = new MockProcessLauncher();
         _trayHost = new MockTrayHost();
         _hotkeyRegistry = new MockHotkeyRegistry();
+        _systemEventHandler = new MockSystemEventHandler();
         _eventPublisher = new EventPublisher();
         _capturedEvents = new List<ShellEvent>();
 
@@ -33,7 +35,7 @@ public class ShellCoreTrayTests
         _eventPublisher.Subscribe<TrayIconRemovedEvent>(e => _capturedEvents.Add(e));
         _eventPublisher.Subscribe<TrayIconClickedEvent>(e => _capturedEvents.Add(e));
 
-        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _eventPublisher);
+        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _systemEventHandler, _eventPublisher);
     }
 
     [Fact]
@@ -257,7 +259,7 @@ public class ShellCoreTrayTests
         trayHostWithExisting.SimulateTrayIconAdded(existingIcon); // Add before ShellCore initialization
 
         // Act - Create new ShellCore instance
-        var newShellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, trayHostWithExisting, _hotkeyRegistry, _eventPublisher);
+        var newShellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, trayHostWithExisting, _hotkeyRegistry, _systemEventHandler, _eventPublisher);
 
         // Assert
         var state = newShellCore.GetState();

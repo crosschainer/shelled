@@ -14,6 +14,7 @@ public class ShellCoreWindowTests
     private readonly MockProcessLauncher _processLauncher;
     private readonly MockTrayHost _trayHost;
     private readonly MockHotkeyRegistry _hotkeyRegistry;
+    private readonly MockSystemEventHandler _systemEventHandler;
     private readonly EventPublisher _eventPublisher;
     private readonly Shell.Core.ShellCore _shellCore;
     private readonly List<ShellEvent> _capturedEvents;
@@ -24,6 +25,7 @@ public class ShellCoreWindowTests
         _processLauncher = new MockProcessLauncher();
         _trayHost = new MockTrayHost();
         _hotkeyRegistry = new MockHotkeyRegistry();
+        _systemEventHandler = new MockSystemEventHandler();
         _eventPublisher = new EventPublisher();
         _capturedEvents = new List<ShellEvent>();
 
@@ -33,7 +35,7 @@ public class ShellCoreWindowTests
         _eventPublisher.Subscribe<WindowStateChangedEvent>(e => _capturedEvents.Add(e));
         _eventPublisher.Subscribe<WindowFocusChangedEvent>(e => _capturedEvents.Add(e));
 
-        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _eventPublisher);
+        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _systemEventHandler, _eventPublisher);
     }
 
     [Fact]

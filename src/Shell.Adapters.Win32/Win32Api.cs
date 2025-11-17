@@ -240,4 +240,28 @@ internal static class Win32Api
 
     // Message window constant
     public static readonly IntPtr HWND_MESSAGE = new IntPtr(-3);
+
+    // System event messages
+    public const uint WM_QUERYENDSESSION = 0x0011;
+    public const uint WM_ENDSESSION = 0x0016;
+    public const uint WM_POWERBROADCAST = 0x0218;
+    public const uint WM_DISPLAYCHANGE = 0x007E;
+    public const uint WM_WTSSESSION_CHANGE = 0x02B1;
+
+    // End session reasons
+    public const int ENDSESSION_CLOSEAPP = 0x00000001;
+    public const int ENDSESSION_CRITICAL = 0x40000000;
+    public const int ENDSESSION_LOGOFF = unchecked((int)0x80000000);
+
+    // Power broadcast events
+    public const int PBT_APMSUSPEND = 0x0004;
+    public const int PBT_APMRESUMEAUTOMATIC = 0x0012;
+    public const int PBT_APMRESUMESUSPEND = 0x0007;
+
+    // Session change events
+    public const int WTS_SESSION_LOCK = 0x7;
+    public const int WTS_SESSION_UNLOCK = 0x8;
+
+    // Error codes
+    public const int ERROR_CLASS_ALREADY_EXISTS = 1410;
 }

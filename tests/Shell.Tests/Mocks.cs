@@ -153,3 +153,30 @@ public class MockHotkeyRegistry : IHotkeyRegistry
         HotkeyPressed?.Invoke(id);
     }
 }
+
+/// <summary>
+/// Mock system event handler for testing
+/// </summary>
+public class MockSystemEventHandler : ISystemEventHandler
+{
+    public event Action<SystemEventType, SystemEventArgs>? SystemEventOccurred;
+
+    public bool IsListening { get; private set; }
+
+    public void StartListening()
+    {
+        IsListening = true;
+    }
+
+    public void StopListening()
+    {
+        IsListening = false;
+    }
+
+    // Test helper method
+    public void TriggerSystemEvent(SystemEventType eventType, SystemEventArgs? eventArgs = null)
+    {
+        eventArgs ??= new SystemEventArgs();
+        SystemEventOccurred?.Invoke(eventType, eventArgs);
+    }
+}

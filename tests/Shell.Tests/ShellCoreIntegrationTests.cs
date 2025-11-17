@@ -15,6 +15,7 @@ public class ShellCoreIntegrationTests : IDisposable
     private readonly ProcessLauncherWin32 _processLauncher;
     private readonly MockTrayHost _trayHost;
     private readonly MockHotkeyRegistry _hotkeyRegistry;
+    private readonly MockSystemEventHandler _systemEventHandler;
     private readonly EventPublisher _eventPublisher;
     private readonly List<ShellEvent> _capturedEvents;
 
@@ -27,9 +28,10 @@ public class ShellCoreIntegrationTests : IDisposable
         _processLauncher = new ProcessLauncherWin32();
         _trayHost = new MockTrayHost();
         _hotkeyRegistry = new MockHotkeyRegistry();
+        _systemEventHandler = new MockSystemEventHandler();
         _eventPublisher = new EventPublisher();
         
-        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _eventPublisher);
+        _shellCore = new Shell.Core.ShellCore(_windowSystem, _processLauncher, _trayHost, _hotkeyRegistry, _systemEventHandler, _eventPublisher);
         
         _capturedEvents = new List<ShellEvent>();
         _eventPublisher.Subscribe<WorkspaceCreatedEvent>(evt => _capturedEvents.Add(evt));

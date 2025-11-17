@@ -267,3 +267,20 @@ public class HotkeyPressedEvent : ShellEvent
     }
 }
 
+// System Events
+
+/// <summary>
+/// Event fired when a system event occurs (shutdown, suspend, etc.)
+/// </summary>
+public class SystemEvent : ShellEvent
+{
+    public SystemEventType EventType { get; }
+    public SystemEventArgs EventArgs { get; }
+
+    public SystemEvent(SystemEventType eventType, SystemEventArgs eventArgs)
+    {
+        EventType = eventType;
+        EventArgs = eventArgs;
+    }
+}
+

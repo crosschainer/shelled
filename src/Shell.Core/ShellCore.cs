@@ -13,6 +13,7 @@ public class ShellCore : IDisposable
     private readonly IProcessLauncher _processLauncher;
     private readonly ITrayHost _trayHost;
     private readonly IHotkeyRegistry _hotkeyRegistry;
+    private readonly ISystemEventHandler _systemEventHandler;
     private readonly IEventPublisher _eventPublisher;
     private readonly ShellState _state;
     private bool _disposed = false;
@@ -22,12 +23,14 @@ public class ShellCore : IDisposable
         IProcessLauncher processLauncher,
         ITrayHost trayHost,
         IHotkeyRegistry hotkeyRegistry,
+        ISystemEventHandler systemEventHandler,
         IEventPublisher eventPublisher)
     {
         _windowSystem = windowSystem ?? throw new ArgumentNullException(nameof(windowSystem));
         _processLauncher = processLauncher ?? throw new ArgumentNullException(nameof(processLauncher));
         _trayHost = trayHost ?? throw new ArgumentNullException(nameof(trayHost));
         _hotkeyRegistry = hotkeyRegistry ?? throw new ArgumentNullException(nameof(hotkeyRegistry));
+        _systemEventHandler = systemEventHandler ?? throw new ArgumentNullException(nameof(systemEventHandler));
         _eventPublisher = eventPublisher ?? throw new ArgumentNullException(nameof(eventPublisher));
         
         _state = new ShellState();
@@ -233,6 +236,8 @@ public class ShellCore : IDisposable
         _trayHost.TrayBalloonShown += OnTrayBalloonShown;
 
         _hotkeyRegistry.HotkeyPressed += OnHotkeyPressed;
+
+        _systemEventHandler.SystemEventOccurred += OnSystemEventOccurred;
     }
 
     private void InitializeState()
@@ -370,6 +375,45 @@ public class ShellCore : IDisposable
         _eventPublisher.Publish(new HotkeyPressedEvent(hotkeyId, modifiers, virtualKey));
     }
 
+    private void OnSystemEventOccurred(SystemEventType eventType, SystemEventArgs eventArgs)
+    {
+        // Handle system events that might affect shell state
+        switch (eventType)
+        {
+            case SystemEventType.QueryEndSession:
+                // Allow applications to save their state before shutdown
+                // The eventArgs.Cancel can be set to prevent shutdown if needed
+                break;
+            
+            case SystemEventType.EndSession:
+                // System is shutting down - perform cleanup
+                break;
+            
+            case SystemEventType.PowerSuspend:
+                // System is going to sleep - pause non-essential operations
+                break;
+            
+            case SystemEventType.PowerResume:
+                // System is waking up - resume operations
+                break;
+            
+            case SystemEventType.DisplaySettingsChanged:
+                // Display configuration changed - may need to adjust UI layout
+                break;
+            
+            case SystemEventType.SessionLock:
+                // User session is locked - may want to hide sensitive information
+                break;
+            
+            case SystemEventType.SessionUnlock:
+                // User session is unlocked - restore normal operation
+                break;
+        }
+
+        // Forward the system event to subscribers
+        _eventPublisher.Publish(new SystemEvent(eventType, eventArgs));
+    }
+
     private void AddWindowToState(ShellWindow window)
     {
         // Assign to active workspace if not already assigned
@@ -410,6 +454,8 @@ public class ShellCore : IDisposable
         _trayHost.TrayBalloonShown -= OnTrayBalloonShown;
 
         _hotkeyRegistry.HotkeyPressed -= OnHotkeyPressed;
+
+        _systemEventHandler.SystemEventOccurred -= OnSystemEventOccurred;
 
         _disposed = true;
     }

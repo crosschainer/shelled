@@ -187,3 +187,54 @@ public interface IEventPublisher
     /// </summary>
     void Unsubscribe<T>(Action<T> handler) where T : class;
 }
+
+/// <summary>
+/// Types of system events
+/// </summary>
+public enum SystemEventType
+{
+    QueryEndSession,
+    EndSession,
+    PowerSuspend,
+    PowerResume,
+    DisplaySettingsChanged,
+    SessionLock,
+    SessionUnlock
+}
+
+/// <summary>
+/// Interface for system event handling
+/// </summary>
+public interface ISystemEventHandler
+{
+    /// <summary>
+    /// Event fired when a system event occurs
+    /// </summary>
+    event Action<SystemEventType, SystemEventArgs>? SystemEventOccurred;
+
+    /// <summary>
+    /// Start listening for system events
+    /// </summary>
+    void StartListening();
+
+    /// <summary>
+    /// Stop listening for system events
+    /// </summary>
+    void StopListening();
+
+    /// <summary>
+    /// Check if currently listening for events
+    /// </summary>
+    bool IsListening { get; }
+}
+
+/// <summary>
+/// Arguments for system events
+/// </summary>
+public class SystemEventArgs
+{
+    public bool CanCancel { get; set; } = false;
+    public bool Cancel { get; set; } = false;
+    public string? Reason { get; set; }
+    public Dictionary<string, object> AdditionalData { get; set; } = new();
+}

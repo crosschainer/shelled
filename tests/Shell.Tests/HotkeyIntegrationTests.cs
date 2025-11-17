@@ -119,11 +119,12 @@ public class HotkeyIntegrationTests
         var processLauncher = new MockProcessLauncher();
         var trayHost = new MockTrayHost();
         var hotkeyRegistry = new HotkeyRegistryWin32(); // Use real Win32 implementation
+        var systemEventHandler = new MockSystemEventHandler();
         var eventPublisher = new EventPublisher();
         var capturedEvents = new List<ShellEvent>();
         eventPublisher.Subscribe<HotkeyPressedEvent>(e => capturedEvents.Add(e));
 
-        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, eventPublisher);
+        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, systemEventHandler, eventPublisher);
 
         // Act
         var registerResult = shellCore.RegisterHotkey("shell-launcher", HotkeyModifiers.Win, 0x20); // Win + Space

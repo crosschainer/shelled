@@ -17,9 +17,10 @@ public class HotkeyTests
         var processLauncher = new MockProcessLauncher();
         var trayHost = new MockTrayHost();
         var hotkeyRegistry = new MockHotkeyRegistry();
+        var systemEventHandler = new MockSystemEventHandler();
         var eventPublisher = new EventPublisher();
 
-        return new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, eventPublisher);
+        return new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, systemEventHandler, eventPublisher);
     }
 
     [Fact]
@@ -57,11 +58,12 @@ public class HotkeyTests
         var processLauncher = new MockProcessLauncher();
         var trayHost = new MockTrayHost();
         var hotkeyRegistry = new MockHotkeyRegistry();
+        var systemEventHandler = new MockSystemEventHandler();
         var eventPublisher = new EventPublisher();
         var capturedEvents = new List<ShellEvent>();
         eventPublisher.Subscribe<HotkeyPressedEvent>(e => capturedEvents.Add(e));
 
-        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, eventPublisher);
+        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, systemEventHandler, eventPublisher);
 
         // Act
         hotkeyRegistry.TriggerHotkey("test-hotkey");
@@ -127,11 +129,12 @@ public class HotkeyTests
         var processLauncher = new MockProcessLauncher();
         var trayHost = new MockTrayHost();
         var hotkeyRegistry = new MockHotkeyRegistry();
+        var systemEventHandler = new MockSystemEventHandler();
         var eventPublisher = new EventPublisher();
         var capturedEvents = new List<ShellEvent>();
         eventPublisher.Subscribe<HotkeyPressedEvent>(e => capturedEvents.Add(e));
 
-        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, eventPublisher);
+        var shellCore = new ShellCore(windowSystem, processLauncher, trayHost, hotkeyRegistry, systemEventHandler, eventPublisher);
 
         // Act
         shellCore.Dispose();
