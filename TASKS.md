@@ -214,7 +214,7 @@
   - Loads `index.html` from `Shell.UI.Web` build output
   - `status:done`
 
-- [ ] `UIHOST-02` Implement bridge object `ShellApi` exposed to JS:
+- [x] `UIHOST-02` Implement bridge object `ShellApi` exposed to JS:
   - `listWindowsJson()`
   - `launchApp(appIdOrPath)`
   - `focusWindow(hwnd)`
@@ -222,12 +222,12 @@
   - `switchWorkspace(id)`
   - `listWorkspacesJson()`
   - `getTrayIconsJson()`
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UIHOST-03` Implement event push:
+- [x] `UIHOST-03` Implement event push:
   - Core → UI via `webView.CoreWebView2.PostWebMessageAsString(payloadJson)`
   - JS listens via `window.chrome.webview.addEventListener("message", ...)`
-  - `status:todo`
+  - `status:done`
 
 #### Tests (Bridge + UI, Fake Core)
 
@@ -256,14 +256,14 @@
   - windows, workspaces, active workspace, tray icons, focused window, etc.
   - `status:done`
 
-- [ ] `UI-03` Implement initial sync from Core:
+- [x] `UI-03` Implement initial sync from Core:
   - on load, call `window.shell.listWindowsJson()`, `listWorkspacesJson()`, `getTrayIconsJson()`
   - render taskbar, workspaces, tray
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UI-04` Implement event handling:
+- [x] `UI-04` Implement event handling:
   - on `"windowCreated"`, `"windowDestroyed"`, `"windowUpdated"`, `"workspaceSwitched"`, `"trayIconUpdated"` messages, update client state + re-render
-  - `status:todo`
+  - `status:done`
 
 ### 6.2 Interaction
 

@@ -4,15 +4,28 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using Shell.Core;
+using Shell.Core.Interfaces;
 
 namespace Shell.Bridge.WebView;
 
 public partial class ShellUiHostForm : Form
 {
     private WebView2 webView = null!;
+    private ShellCore? _shellCore;
+    private IEventPublisher? _eventPublisher;
+    private ShellApi? _shellApi;
 
     public ShellUiHostForm()
     {
+        InitializeComponent();
+        InitializeAsync();
+    }
+
+    public ShellUiHostForm(ShellCore shellCore, IEventPublisher eventPublisher)
+    {
+        _shellCore = shellCore ?? throw new ArgumentNullException(nameof(shellCore));
+        _eventPublisher = eventPublisher ?? throw new ArgumentNullException(nameof(eventPublisher));
         InitializeComponent();
         InitializeAsync();
     }
@@ -284,7 +297,45 @@ public partial class ShellUiHostForm : Form
     private void CoreWebView2_DOMContentLoaded(object? sender, CoreWebView2DOMContentLoadedEventArgs e)
     {
         Console.WriteLine("Shell UI DOM content loaded");
-        // TODO: Initialize bridge API here
+        InitializeBridgeApi();
+    }
+
+    private void InitializeBridgeApi()
+    {
+        try
+        {
+            if (_shellCore != null && _eventPublisher != null)
+            {
+                // Create and expose the ShellApi bridge object
+                _shellApi = new ShellApi(_shellCore, webView.CoreWebView2, _eventPublisher);
+                webView.CoreWebView2.AddHostObjectToScript("shell", _shellApi);
+                
+                Console.WriteLine("ShellApi bridge initialized successfully");
+                
+                // Send initial connection event to UI
+                var connectionMessage = new
+                {
+                    type = "connected",
+                    data = new { status = "Bridge API initialized" },
+                    timestamp = DateTime.UtcNow.ToString("O")
+                };
+                
+                var json = System.Text.Json.JsonSerializer.Serialize(connectionMessage, new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+                });
+                
+                webView.CoreWebView2.PostWebMessageAsString(json);
+            }
+            else
+            {
+                Console.WriteLine("ShellCore or EventPublisher not available - running in fallback mode");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error initializing bridge API: {ex.Message}");
+        }
     }
 
     private void ShellUiHostForm_Load(object? sender, EventArgs e)
@@ -295,7 +346,8 @@ public partial class ShellUiHostForm : Form
 
     private void ShellUiHostForm_FormClosing(object? sender, FormClosingEventArgs e)
     {
-        // TODO: Cleanup resources, notify shell core of shutdown
+        // Cleanup resources
+        _shellApi?.Dispose();
         webView?.Dispose();
     }
 

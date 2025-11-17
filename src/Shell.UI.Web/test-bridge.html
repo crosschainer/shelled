@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridge API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 5px;
+        }
+        button {
+            background: #0078d4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #106ebe;
+        }
+        .output {
+            background: #2d2d2d;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin: 5px 0;
+        }
+        .status.connected { background: #107c10; }
+        .status.disconnected { background: #d13438; }
+        .status.connecting { background: #ff8c00; }
+    </style>
+</head>
+<body>
+    <h1>Shell Bridge API Test</h1>
+    
+    <div class="status" id="connection-status">Connecting...</div>
+    
+    <div class="test-section">
+        <h2>Bridge Connection</h2>
+        <button onclick="testConnection()">Test Connection</button>
+        <div class="output" id="connection-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Windows</h2>
+        <button onclick="listWindows()">List Windows</button>
+        <button onclick="focusFirstWindow()">Focus First Window</button>
+        <div class="output" id="windows-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Workspaces</h2>
+        <button onclick="listWorkspaces()">List Workspaces</button>
+        <button onclick="createTestWorkspace()">Create Test Workspace</button>
+        <button onclick="switchToFirstWorkspace()">Switch to First Workspace</button>
+        <div class="output" id="workspaces-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Tray Icons</h2>
+        <button onclick="getTrayIcons()">Get Tray Icons</button>
+        <div class="output" id="tray-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Shell State</h2>
+        <button onclick="getShellState()">Get Shell State</button>
+        <div class="output" id="state-output"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Events</h2>
+        <button onclick="startEventLogging()">Start Event Logging</button>
+        <button onclick="stopEventLogging()">Stop Event Logging</button>
+        <button onclick="clearEventLog()">Clear Log</button>
+        <div class="output" id="events-output"></div>
+    </div>
+
+    <script>
+        let eventLogging = false;
+        let eventLogCount = 0;
+
+        // Initialize WebView2 message listener
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.addEventListener('message', (event) => {
+                try {
+                    const message = JSON.parse(event.data);
+                    handleShellEvent(message);
+                } catch (error) {
+                    console.error('Error parsing message:', error);
+                }
+            });
+        }
+
+        function handleShellEvent(message) {
+            const { type, data, timestamp } = message;
+            
+            if (type === 'connected') {
+                updateConnectionStatus('connected', 'Connected to Shell Core');
+                log('connection-output', `Connected: ${JSON.stringify(data)}`);
+                return;
+            }
+
+            if (eventLogging) {
+                eventLogCount++;
+                const eventLog = document.getElementById('events-output');
+                eventLog.textContent += `[${eventLogCount}] ${type}: ${JSON.stringify(data)}\n`;
+                eventLog.scrollTop = eventLog.scrollHeight;
+            }
+        }
+
+        function updateConnectionStatus(status, message) {
+            const statusEl = document.getElementById('connection-status');
+            statusEl.className = `status ${status}`;
+            statusEl.textContent = message;
+        }
+
+        function log(outputId, message) {
+            const output = document.getElementById(outputId);
+            output.textContent += new Date().toLocaleTimeString() + ': ' + message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        async function testConnection() {
+            try {
+                if (window.shell) {
+                    log('connection-output', 'Bridge object available');
+                    const state = await window.shell.getShellStateJson();
+                    log('connection-output', `Shell state: ${state}`);
+                } else {
+                    log('connection-output', 'Bridge object not available');
+                }
+            } catch (error) {
+                log('connection-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function listWindows() {
+            try {
+                if (window.shell) {
+                    const windowsJson = await window.shell.listWindowsJson();
+                    const windows = JSON.parse(windowsJson);
+                    log('windows-output', `Found ${windows.length} windows:`);
+                    windows.forEach((w, i) => {
+                        log('windows-output', `  ${i+1}. ${w.title} (${w.hwnd})`);
+                    });
+                } else {
+                    log('windows-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('windows-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function focusFirstWindow() {
+            try {
+                if (window.shell) {
+                    const windowsJson = await window.shell.listWindowsJson();
+                    const windows = JSON.parse(windowsJson);
+                    if (windows.length > 0) {
+                        const success = await window.shell.focusWindow(windows[0].hwnd);
+                        log('windows-output', `Focus window result: ${success}`);
+                    } else {
+                        log('windows-output', 'No windows available');
+                    }
+                } else {
+                    log('windows-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('windows-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function listWorkspaces() {
+            try {
+                if (window.shell) {
+                    const workspacesJson = await window.shell.listWorkspacesJson();
+                    const workspaces = JSON.parse(workspacesJson);
+                    log('workspaces-output', `Found ${workspaces.length} workspaces:`);
+                    workspaces.forEach((w, i) => {
+                        log('workspaces-output', `  ${i+1}. ${w.name} (${w.id}) - Active: ${w.isActive}`);
+                    });
+                } else {
+                    log('workspaces-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('workspaces-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function createTestWorkspace() {
+            try {
+                if (window.shell) {
+                    const workspaceId = 'test-' + Date.now();
+                    const success = await window.shell.createWorkspace(workspaceId, 'Test Workspace');
+                    log('workspaces-output', `Create workspace result: ${success}`);
+                } else {
+                    log('workspaces-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('workspaces-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function switchToFirstWorkspace() {
+            try {
+                if (window.shell) {
+                    const workspacesJson = await window.shell.listWorkspacesJson();
+                    const workspaces = JSON.parse(workspacesJson);
+                    if (workspaces.length > 0) {
+                        const success = await window.shell.switchWorkspace(workspaces[0].id);
+                        log('workspaces-output', `Switch workspace result: ${success}`);
+                    } else {
+                        log('workspaces-output', 'No workspaces available');
+                    }
+                } else {
+                    log('workspaces-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('workspaces-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function getTrayIcons() {
+            try {
+                if (window.shell) {
+                    const trayJson = await window.shell.getTrayIconsJson();
+                    const trayIcons = JSON.parse(trayJson);
+                    log('tray-output', `Found ${trayIcons.length} tray icons:`);
+                    trayIcons.forEach((t, i) => {
+                        log('tray-output', `  ${i+1}. ${t.tooltip} (${t.id})`);
+                    });
+                } else {
+                    log('tray-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('tray-output', `Error: ${error.message}`);
+            }
+        }
+
+        async function getShellState() {
+            try {
+                if (window.shell) {
+                    const stateJson = await window.shell.getShellStateJson();
+                    log('state-output', `Shell state: ${stateJson}`);
+                } else {
+                    log('state-output', 'Bridge not available');
+                }
+            } catch (error) {
+                log('state-output', `Error: ${error.message}`);
+            }
+        }
+
+        function startEventLogging() {
+            eventLogging = true;
+            log('events-output', 'Event logging started...');
+        }
+
+        function stopEventLogging() {
+            eventLogging = false;
+            log('events-output', 'Event logging stopped.');
+        }
+
+        function clearEventLog() {
+            document.getElementById('events-output').textContent = '';
+            eventLogCount = 0;
+        }
+
+        // Initialize
+        updateConnectionStatus('connecting', 'Connecting to Shell Core...');
+        
+        // Test connection after a short delay
+        setTimeout(testConnection, 1000);
+    </script>
+</body>
+</html>

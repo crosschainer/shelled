@@ -41,17 +41,19 @@ export function createShellStateStore(initialState = {}) {
       state.windows = [...windows];
       notify();
     },
-    upsertWindow(windowModel) {
-      const index = state.windows.findIndex((w) => w.hwnd === windowModel.hwnd);
-      if (index >= 0) {
-        state.windows[index] = { ...state.windows[index], ...windowModel };
+    upsertWindow(windowUpdate) {
+      const existingIndex = state.windows.findIndex(w => w.hwnd === windowUpdate.hwnd);
+      if (existingIndex >= 0) {
+        // Update existing window
+        state.windows[existingIndex] = { ...state.windows[existingIndex], ...windowUpdate };
       } else {
-        state.windows.push({ ...windowModel });
+        // Add new window
+        state.windows.push(windowUpdate);
       }
       notify();
     },
     removeWindow(hwnd) {
-      state.windows = state.windows.filter((w) => `${w.hwnd}` !== `${hwnd}`);
+      state.windows = state.windows.filter(w => w.hwnd !== hwnd);
       notify();
     },
     setWorkspaces(workspaces) {
