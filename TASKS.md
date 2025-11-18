@@ -267,27 +267,27 @@
 
 ### 6.2 Interaction
 
-- [ ] `UI-05` Taskbar interactions:
+- [x] `UI-05` Taskbar interactions:
   - click taskbar item → focus window (or restore from minimized)
   - right-click → show app context menu (close, move to workspace, etc.)
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UI-06` Launcher:
+- [x] `UI-06` Launcher:
   - show/hide via hotkey event from Core
   - app grid backed by config JSON or API from Core
   - clicking icon → `launchApp(appId)`
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UI-07` Workspaces:
+- [x] `UI-07` Workspaces:
   - click workspace indicator → `switchWorkspace(id)`
   - UI highlight active workspace
   - optional: drag taskbar entry to another workspace
-  - `status:todo`
+  - `status:done`
 
-- [ ] `UI-08` Tray:
+- [x] `UI-08` Tray:
   - render icons from `trayIcons` state
   - click icon → send `trayIconInvoke(id, action)` call to Core
-  - `status:todo`
+  - `status:done`
 
 #### Tests (UI Logic, with Fake Core or isolated in JS)
 

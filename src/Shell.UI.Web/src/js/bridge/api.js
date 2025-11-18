@@ -162,6 +162,19 @@ class ShellBridge {
   }
 
   /**
+   * Get all launcher apps as JSON
+   */
+  async getLauncherApps() {
+    try {
+      const json = await this.callBridgeMethod('getLauncherAppsJson');
+      return JSON.parse(json);
+    } catch (error) {
+      console.error('Error getting launcher apps:', error);
+      return [];
+    }
+  }
+
+  /**
    * Launch an application
    */
   async launchApp(appIdOrPath) {

@@ -35,6 +35,9 @@ export class ShellEventHandler {
     shellBridge.on('trayIconUpdated', this.handleTrayIconUpdated.bind(this));
     shellBridge.on('trayIconRemoved', this.handleTrayIconRemoved.bind(this));
 
+    // Hotkey events
+    shellBridge.on('hotkeyPressed', this.handleHotkeyPressed.bind(this));
+
     // Connection events
     shellBridge.on('connected', this.handleConnected.bind(this));
 
@@ -62,6 +65,7 @@ export class ShellEventHandler {
     shellBridge.off('trayIconAdded', this.handleTrayIconAdded);
     shellBridge.off('trayIconUpdated', this.handleTrayIconUpdated);
     shellBridge.off('trayIconRemoved', this.handleTrayIconRemoved);
+    shellBridge.off('hotkeyPressed', this.handleHotkeyPressed);
     shellBridge.off('connected', this.handleConnected);
 
     this.isListening = false;
@@ -144,6 +148,37 @@ export class ShellEventHandler {
     const currentTrayIcons = this.store.getState().trayIcons;
     const updatedTrayIcons = currentTrayIcons.filter(icon => icon.id !== data.id);
     this.store.setTrayIcons(updatedTrayIcons);
+  }
+
+  handleHotkeyPressed(data) {
+    console.log('Hotkey pressed:', data);
+    
+    // Handle specific hotkeys
+    switch (data.hotkeyId) {
+      case 'launcher-toggle':
+        // Toggle launcher visibility
+        this.toggleLauncher();
+        break;
+      default:
+        console.log('Unhandled hotkey:', data.hotkeyId);
+    }
+  }
+
+  toggleLauncher() {
+    // Get launcher elements
+    const launcherOverlay = document.getElementById('launcher-overlay');
+    if (launcherOverlay) {
+      const isVisible = launcherOverlay.style.display !== 'none';
+      launcherOverlay.style.display = isVisible ? 'none' : 'flex';
+      
+      // Focus the launcher grid when showing
+      if (!isVisible) {
+        const launcherGrid = document.getElementById('launcher-grid');
+        if (launcherGrid) {
+          launcherGrid.focus();
+        }
+      }
+    }
   }
 
   handleConnected(data) {

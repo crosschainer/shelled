@@ -378,6 +378,38 @@ public class ShellApi : IDisposable
         }
     }
 
+    /// <summary>
+    /// Get launcher apps as JSON
+    /// </summary>
+    public string GetLauncherAppsJson()
+    {
+        try
+        {
+            var state = _shellCore.GetState();
+            var launcherApps = state.LauncherApps.Values.Select(app => new
+            {
+                id = app.Id,
+                name = app.Name,
+                description = app.Description,
+                iconPath = app.IconPath,
+                executablePath = app.ExecutablePath,
+                category = app.Category,
+                isVisible = app.IsVisible,
+                sortOrder = app.SortOrder
+            }).ToArray();
+
+            return JsonSerializer.Serialize(launcherApps, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error getting launcher apps: {ex.Message}");
+            return "[]";
+        }
+    }
+
     private void SubscribeToShellEvents()
     {
         // Subscribe to shell events and forward them to the UI
@@ -391,6 +423,7 @@ public class ShellApi : IDisposable
         _eventPublisher.Subscribe<TrayIconAddedEvent>(OnTrayIconAdded);
         _eventPublisher.Subscribe<TrayIconUpdatedEvent>(OnTrayIconUpdated);
         _eventPublisher.Subscribe<TrayIconRemovedEvent>(OnTrayIconRemoved);
+        _eventPublisher.Subscribe<HotkeyPressedEvent>(OnHotkeyPressed);
     }
 
     private void OnWindowCreated(WindowCreatedEvent eventData)
@@ -431,8 +464,8 @@ public class ShellApi : IDisposable
     {
         SendEventToUI("windowFocusChanged", new
         {
-            previousHwnd = eventData.PreviousWindowHandle?.ToString(),
-            currentHwnd = eventData.CurrentWindowHandle?.ToString()
+            previousHwnd = eventData.PreviousWindowHandle.ToString(),
+            currentHwnd = eventData.NewWindowHandle.ToString()
         });
     }
 
@@ -441,7 +474,7 @@ public class ShellApi : IDisposable
         SendEventToUI("workspaceSwitched", new
         {
             previousWorkspaceId = eventData.PreviousWorkspaceId,
-            currentWorkspaceId = eventData.CurrentWorkspaceId
+            currentWorkspaceId = eventData.NewWorkspaceId
         });
     }
 
@@ -496,6 +529,16 @@ public class ShellApi : IDisposable
         });
     }
 
+    private void OnHotkeyPressed(HotkeyPressedEvent eventData)
+    {
+        SendEventToUI("hotkeyPressed", new
+        {
+            hotkeyId = eventData.HotkeyId,
+            modifiers = eventData.Modifiers,
+            virtualKey = eventData.VirtualKey
+        });
+    }
+
     private void SendEventToUI(string eventType, object eventData)
     {
         try
@@ -535,6 +578,7 @@ public class ShellApi : IDisposable
             _eventPublisher.Unsubscribe<TrayIconAddedEvent>(OnTrayIconAdded);
             _eventPublisher.Unsubscribe<TrayIconUpdatedEvent>(OnTrayIconUpdated);
             _eventPublisher.Unsubscribe<TrayIconRemovedEvent>(OnTrayIconRemoved);
+            _eventPublisher.Unsubscribe<HotkeyPressedEvent>(OnHotkeyPressed);
 
             _disposed = true;
         }

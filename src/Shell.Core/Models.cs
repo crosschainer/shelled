@@ -111,6 +111,7 @@ public class ShellState
     public string ActiveWorkspaceId { get; set; } = "default";
     public IntPtr FocusedWindowHandle { get; set; } = IntPtr.Zero;
     public Dictionary<string, TrayIcon> TrayIcons { get; set; } = new();
+    public Dictionary<string, LauncherApp> LauncherApps { get; set; } = new();
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
     public ShellState()
@@ -121,6 +122,40 @@ public class ShellState
             Id = "default", 
             Name = "Default", 
             IsActive = true 
+        };
+
+        // Initialize with default launcher apps
+        LauncherApps["notepad"] = new LauncherApp
+        {
+            Id = "notepad",
+            Name = "Notepad",
+            Description = "Simple text editor",
+            ExecutablePath = "notepad.exe",
+            Category = "Productivity"
+        };
+        LauncherApps["calc"] = new LauncherApp
+        {
+            Id = "calc",
+            Name = "Calculator",
+            Description = "Windows Calculator",
+            ExecutablePath = "calc.exe",
+            Category = "Utilities"
+        };
+        LauncherApps["cmd"] = new LauncherApp
+        {
+            Id = "cmd",
+            Name = "Command Prompt",
+            Description = "Command line interface",
+            ExecutablePath = "cmd.exe",
+            Category = "System"
+        };
+        LauncherApps["explorer"] = new LauncherApp
+        {
+            Id = "explorer",
+            Name = "File Explorer",
+            Description = "Browse files and folders",
+            ExecutablePath = "explorer.exe",
+            Category = "System"
         };
     }
 
@@ -153,6 +188,22 @@ public class ShellState
         return GetWindowsInWorkspace(ActiveWorkspaceId)
             .Where(w => w.IsVisible && w.State != WindowState.Hidden);
     }
+}
+
+/// <summary>
+/// Represents a launcher application
+/// </summary>
+public class LauncherApp
+{
+    public string Id { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string ExecutablePath { get; set; } = string.Empty;
+    public string IconPath { get; set; } = string.Empty;
+    public string Category { get; set; } = "General";
+    public bool IsVisible { get; set; } = true;
+    public int SortOrder { get; set; } = 0;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
 
 /// <summary>

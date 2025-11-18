@@ -37,10 +37,11 @@ export class ShellSync {
       this.store.setStatusText('Syncing...');
 
       // Sync all data in parallel
-      const [windows, workspaces, trayIcons, shellState] = await Promise.all([
+      const [windows, workspaces, trayIcons, launcherApps, shellState] = await Promise.all([
         shellBridge.listWindows(),
         shellBridge.listWorkspaces(),
         shellBridge.getTrayIcons(),
+        shellBridge.getLauncherApps(),
         shellBridge.getShellState()
       ]);
 
@@ -48,6 +49,7 @@ export class ShellSync {
       this.store.setWindows(windows);
       this.store.setWorkspaces(workspaces);
       this.store.setTrayIcons(trayIcons);
+      this.store.setLauncherApps(launcherApps);
 
       // Set active workspace from shell state
       if (shellState.activeWorkspaceId) {

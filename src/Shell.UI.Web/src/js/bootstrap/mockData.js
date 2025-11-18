@@ -33,5 +33,6 @@ export function bootstrapMockDataIfNeeded(store) {
   store.setWindows(windows);
   store.setFocusedWindow('0x1');
   store.setTrayIcons(trayIcons);
+  // Only set launcher apps in mock mode as fallback
   store.setLauncherApps(apps);
 }
