@@ -132,22 +132,26 @@ public class BootstrapTests
     public void PathCombination_ShouldWorkCorrectly()
     {
         // Test path combination logic similar to what's used in FindUiHostExecutable
-        var baseDir = @"C:\Test";
+        var baseDir = Path.Combine(Path.GetTempPath(), "Shelled", "Bootstrap");
         var fileName = "ShellUiHost.exe";
-        
+
         var combined = Path.Combine(baseDir, fileName);
-        
-        Assert.Equal(@"C:\Test\ShellUiHost.exe", combined);
+        var expected = baseDir.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) +
+                       Path.DirectorySeparatorChar + fileName;
+
+        Assert.Equal(expected, combined);
     }
 
     [Fact]
     public void RelativePaths_ShouldResolveCorrectly()
     {
         // Test relative path resolution
-        var basePath = @"C:\Shelled\Bootstrap";
+        var root = Path.Combine(Path.GetTempPath(), "Shelled");
+        var basePath = Path.Combine(root, "Bootstrap");
         var relativePath = Path.Combine(basePath, "..", "Shell.Bridge.WebView", "ShellUiHost.exe");
         var fullPath = Path.GetFullPath(relativePath);
-        
-        Assert.Equal(@"C:\Shelled\Shell.Bridge.WebView\ShellUiHost.exe", fullPath);
+        var expected = Path.GetFullPath(Path.Combine(root, "Shell.Bridge.WebView", "ShellUiHost.exe"));
+
+        Assert.Equal(expected, fullPath);
     }
 }

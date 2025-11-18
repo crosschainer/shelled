@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
@@ -23,9 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Shell.Bootstrap\Shell.Bootstrap.csproj" />
-    <ProjectReference Include="..\..\src\Shell.Service\Shell.Service.csproj" />
-    <ProjectReference Include="..\..\src\Shell.Core\Shell.Core.csproj" />
+    <ProjectReference Include="..\..\src\Shell.Bootstrap.Infrastructure\Shell.Bootstrap.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

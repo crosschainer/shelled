@@ -13,10 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shell.Service\Shell.Service.csproj" />
     <ProjectReference Include="..\Shell.Core\Shell.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
+    <ProjectReference Include="..\Shell.Bootstrap.Infrastructure\Shell.Bootstrap.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
