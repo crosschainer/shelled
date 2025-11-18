@@ -291,8 +291,8 @@
 
 #### Tests (UI Logic, with Fake Core or isolated in JS)
 
-- [ ] `TEST-UI-01` JS unit tests: reducer/store updates state on events correctly (window created/destroyed/updated, workspace switched, tray icon changes)  
-  - `status:todo`
+- [x] `TEST-UI-01` JS unit tests: reducer/store updates state on events correctly (window created/destroyed/updated, workspace switched, tray icon changes)
+  - `status:done`
 
 - [ ] `TEST-UI-02` Integration (FakeShellCore): pushing two windows results in two `.taskbar-item` elements in DOM  
   - `status:todo`
