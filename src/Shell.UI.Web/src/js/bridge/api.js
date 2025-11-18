@@ -7,12 +7,16 @@ class ShellBridge {
     this.isConnected = false;
     this.eventHandlers = new Map();
     this.connectionPromise = null;
-    
+
     // Initialize WebView2 message listener
     this.initializeMessageListener();
   }
 
   initializeMessageListener() {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     if (window.chrome && window.chrome.webview) {
       window.chrome.webview.addEventListener('message', (event) => {
         try {
