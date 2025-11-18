@@ -188,12 +188,12 @@
   - maintains instance of `ShellCore`, `WindowSystemWin32`, `ProcessLauncherWin32`, `TrayHostWin32`, `HotkeyRegistryWin32`
   - `status:done`
 
-- [ ] `BOOT-02` Implement `myshell-bootstrap.exe`:
+- [x] `BOOT-02` Implement `myshell-bootstrap.exe`:
   - created as `Shell` in `Winlogon` registry key (per-user for safety)
   - starts `ShellCoreService`
   - starts `ShellUiHost` process
   - handles crash-restart logic for `ShellUiHost`
-  - `status:todo`
+  - `status:done`
 
 - [ ] `BOOT-03` Implement “safe mode” startup:
   - if `Alt` (or some key) is held during login, start Explorer instead of custom shell
