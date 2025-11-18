@@ -306,14 +306,14 @@
 
 These use **real Core + real UI + real adapters**.
 
-- [ ] `TEST-E2E-01` Start shell in test session:
+- [x] `TEST-E2E-01` Start shell in test session:
   - Launch Core + UI Host manually (not as Winlogon shell)
   - Use UI automation tool (e.g. FlaUI) to:
     - find the launcher button
     - click to open launcher
     - click “Notepad”
     - assert Notepad process is running and taskbar entry appears
-  - `status:todo`
+  - `status:done`
 
 - [ ] `TEST-E2E-02` Workspace switch:
   - Open two helper apps
