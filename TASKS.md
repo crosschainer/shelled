@@ -231,13 +231,13 @@
 
 #### Tests (Bridge + UI, Fake Core)
 
-- [ ] `TEST-INT-BRIDGE-01` Integration: fake core pushes window state; UI taskbar DOM reflects two windows  
+- [x] `TEST-INT-BRIDGE-01` Integration: fake core pushes window state; UI taskbar DOM reflects two windows  
   - Use `FakeShellCore` + test mode UI host  
   - Inspect DOM via `ExecuteScriptAsync`  
-  - `status:todo`
+  - `status:done`
 
-- [ ] `TEST-INT-BRIDGE-02` Integration: clicking a taskbar item in HTML triggers `focusWindow(hwnd)` in `FakeShellCore`  
-  - `status:todo`
+- [x] `TEST-INT-BRIDGE-02` Integration: clicking a taskbar item in HTML triggers `focusWindow(hwnd)` in `FakeShellCore`  
+  - `status:done`
 
 ---
 
