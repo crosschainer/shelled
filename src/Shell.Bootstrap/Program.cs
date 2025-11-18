@@ -25,7 +25,14 @@ internal class Program
         try
         {
             Console.WriteLine("Shelled Bootstrap starting...");
-            
+
+            var options = BootstrapCommandLineOptions.Parse(args);
+
+            if (options.PanicRequested)
+            {
+                return HandlePanicCommand();
+            }
+
             // Check for safe mode (Alt key held during startup)
             if (IsSafeModeRequested())
             {
@@ -58,6 +65,33 @@ internal class Program
                 Console.WriteLine($"Fallback to Explorer failed: {fallbackEx.Message}");
             }
             
+            return 1;
+        }
+    }
+
+    private static int HandlePanicCommand()
+    {
+        Console.WriteLine("Panic command invoked - attempting to restore Explorer shell and launch Explorer.");
+
+        try
+        {
+            var result = ShellRegistration.TryRestoreExplorerShell();
+            Console.WriteLine($"Shell registry restore result: {result}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to restore Explorer shell value: {ex.Message}");
+        }
+
+        try
+        {
+            StartExplorer();
+            Console.WriteLine("Explorer launched. You can sign out or close this window once the desktop is ready.");
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to start Explorer during panic command: {ex.Message}");
             return 1;
         }
     }

@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Shell.Bootstrap;
 
 namespace Shell.Bootstrap.Tests;
 
@@ -153,5 +154,30 @@ public class BootstrapTests
         var expected = Path.GetFullPath(Path.Combine(root, "Shell.Bridge.WebView", "ShellUiHost.exe"));
 
         Assert.Equal(expected, fullPath);
+    }
+
+    [Fact]
+    public void CommandLineOptions_ShouldDetectPanicSwitches()
+    {
+        var cases = new[]
+        {
+            new[] { "panic" },
+            new[] { "--panic" },
+            new[] { "/panic" },
+            new[] { "--dev", "--panic" }
+        };
+
+        foreach (var args in cases)
+        {
+            var options = BootstrapCommandLineOptions.Parse(args);
+            Assert.True(options.PanicRequested);
+        }
+    }
+
+    [Fact]
+    public void CommandLineOptions_ShouldIgnoreOtherArguments()
+    {
+        var options = BootstrapCommandLineOptions.Parse(new[] { "--dev", "/safe" });
+        Assert.False(options.PanicRequested);
     }
 }

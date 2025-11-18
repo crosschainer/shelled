@@ -333,11 +333,11 @@ These use **real Core + real UI + real adapters**.
 
 ## 8. Safety & Recovery
 
-- [ ] `SAFE-01` Implement “panic” command:
+- [x] `SAFE-01` Implement “panic” command:
   - global hotkey or CLI arg to:
     - start `explorer.exe` as temporary shell
     - or restore original shell registry value
-  - `status:todo`
+  - `status:done`
 
 - [x] `SAFE-02` Document recovery procedure in `docs/Recovery.md`:
   - Safe Mode boot

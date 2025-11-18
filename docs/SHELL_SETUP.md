@@ -82,10 +82,24 @@ If anything goes wrong, use one of the following approaches.
 3. Use `reg add "HKU\TempHive\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d explorer.exe /f` to reset the shell.
 4. Unload the hive and reboot.
 
+## 4. Panic Command (Quick Escape)
+
+Shelled ships with a panic command so you can restore Explorer without digging through the registry manually:
+
+1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> to open **Task Manager** (or press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Del</kbd> → **Task Manager**).
+2. Choose **File → Run new task** and browse to `myshell-bootstrap.exe` (from your build output).
+3. Run the executable with the `--panic` switch:
+   ```powershell
+   myshell-bootstrap.exe --panic
+   ```
+4. The command attempts to restore the Winlogon shell value to `explorer.exe` (skipped automatically if `SHELL_TEST_MODE=1`) and then launches Explorer so you immediately get your desktop back.
+
+Use this any time the WebView UI crashes or you suspect Shelled is stuck; it is safe to run multiple times.
+
 ## Additional Recommendations
 - Keep a printed copy of the recovery instructions nearby before registering the shell.
 - Version control any scripts you use to switch shells so you can review them before running elevated.
-- Consider adding a global "panic" shortcut in future work (`SAFE-01`) that automatically launches Explorer.
+- Remember the built-in panic command (`myshell-bootstrap.exe --panic`) for an instant Explorer relaunch.
 - When building release binaries for shell registration, prefer `dotnet publish -c Release` to capture all dependencies next to `ShellUiHost.exe`.
 
 Stay safe, and never test new shell builds on production machines.
