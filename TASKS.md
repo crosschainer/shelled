@@ -115,8 +115,8 @@
 - [x] `TEST-INT-WS-02` Integration: Core detects window close when helper app exits
   - `status:done`
 
-- [ ] `TEST-INT-WS-03` Integration: Core tracks focus changes when user activates another window (trigger via test automation or simulated calls)  
-  - `status:todo`
+- [x] `TEST-INT-WS-03` Integration: Core tracks focus changes when user activates another window (trigger via test automation or simulated calls)  
+  - `status:done`
 
 ### 3.2 Process Launcher
 
@@ -130,8 +130,8 @@
 
 #### Tests
 
-- [ ] `TEST-INT-PL-01` Integration: `ShellCore.LaunchApp("notepad")` starts process and eventually results in a `WindowCreatedEvent`  
-  - `status:todo`
+- [x] `TEST-INT-PL-01` Integration: `ShellCore.LaunchApp("notepad")` starts process and eventually results in a `WindowCreatedEvent`  
+  - `status:done`
 
 ### 3.3 Workspaces (Internal Abstraction)
 
@@ -195,9 +195,9 @@
   - handles crash-restart logic for `ShellUiHost`
   - `status:done`
 
-- [ ] `BOOT-03` Implement “safe mode” startup:
+- [x] `BOOT-03` Implement “safe mode” startup:
   - if `Alt` (or some key) is held during login, start Explorer instead of custom shell
-  - `status:todo`
+  - `status:done`
 
 #### Tests
 

@@ -193,6 +193,8 @@ public class ShellCoreIntegrationTests : IDisposable
         Assert.Null(exception);
     }
 
+
+
     public void Dispose()
     {
         _shellCore?.Dispose();

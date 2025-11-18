@@ -30,7 +30,12 @@ public class MockWindowSystem : IWindowSystem
     {
         if (_windows.TryGetValue(hwnd, out var window))
         {
-            window.State = state;
+            // Only update the window's State if it's not a temporary hide/show operation
+            // For workspace switching, we want to preserve the original state
+            if (state != WindowState.Hidden)
+            {
+                window.State = state;
+            }
             window.IsVisible = state != WindowState.Hidden;
         }
     }
@@ -59,7 +64,15 @@ public class MockWindowSystem : IWindowSystem
 /// </summary>
 public class MockProcessLauncher : IProcessLauncher
 {
-    public Task<int> LaunchAppAsync(string appIdOrPath) => Task.FromResult(1234);
+    private int _nextProcessId = 1234;
+
+    public Task<int> LaunchAppAsync(string appIdOrPath)
+    {
+        if (string.IsNullOrWhiteSpace(appIdOrPath))
+            throw new ArgumentException("App ID or path cannot be empty", nameof(appIdOrPath));
+
+        return Task.FromResult(_nextProcessId++);
+    }
 
     public IEnumerable<ProcessInfo> GetRunningProcesses() => Enumerable.Empty<ProcessInfo>();
 }

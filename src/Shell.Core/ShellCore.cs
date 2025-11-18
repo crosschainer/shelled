@@ -100,18 +100,20 @@ public class ShellCore : IDisposable
 
         var previousWorkspaceId = _state.ActiveWorkspaceId;
         
-        // Hide windows from the current workspace
+        // Hide ALL windows that don't belong to the new workspace
+        foreach (var window in _state.Windows.Values)
+        {
+            if (window.WorkspaceId != workspaceId)
+            {
+                window.IsVisible = false;
+                _windowSystem.ShowWindow(window.Handle, WindowState.Hidden);
+            }
+        }
+
+        // Update previous workspace active state
         if (_state.Workspaces.TryGetValue(previousWorkspaceId, out var previousWorkspace))
         {
             previousWorkspace.IsActive = false;
-            foreach (var windowHandle in previousWorkspace.WindowHandles)
-            {
-                if (_state.Windows.TryGetValue(windowHandle, out var window))
-                {
-                    window.IsVisible = false;
-                    _windowSystem.ShowWindow(windowHandle, WindowState.Hidden);
-                }
-            }
         }
 
         // Show windows from the new workspace
@@ -420,6 +422,13 @@ public class ShellCore : IDisposable
         if (string.IsNullOrEmpty(window.WorkspaceId))
         {
             window.WorkspaceId = _state.ActiveWorkspaceId;
+        }
+
+        // Hide window if it's not in the active workspace
+        if (window.WorkspaceId != _state.ActiveWorkspaceId)
+        {
+            window.IsVisible = false;
+            _windowSystem.ShowWindow(window.Handle, WindowState.Hidden);
         }
 
         // Add to state
