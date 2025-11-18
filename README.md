@@ -172,6 +172,7 @@ Since Shelled replaces the system shell, it includes safety measures:
 - **Test Mode**: Environment variable `SHELL_TEST_MODE=1` disables dangerous operations
 - **Recovery Options**: Documentation for restoring Explorer via Safe Mode
 - **Graceful Fallback**: Error handling with fallback UI when components fail
+- **Panic Command**: Run `myshell-bootstrap.exe --panic` to relaunch Explorer and restore the Winlogon shell value instantly
 
 ## 🤖 AI Agent Integration
 

@@ -3,6 +3,17 @@
 Shelled replaces `explorer.exe`, so you should always know how to recover control of the desktop if something goes wrong. This
 playbook walks through the supported recovery paths and highlights the safeguards that keep your system usable.
 
+## 0. Panic Command (Bootstrap Shortcut)
+
+If Shelled is still running but unresponsive, execute the bootstrap binary with the `--panic` argument. The command restores the Winlogon `Shell` value back to `explorer.exe` (skipped when `SHELL_TEST_MODE=1`) and then starts Explorer immediately.
+
+1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> to open **Task Manager** (or <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Del</kbd> → **Task Manager**).
+2. Choose **File → Run new task** and browse to the location of `myshell-bootstrap.exe`.
+3. Run `myshell-bootstrap.exe --panic`.
+4. Wait for the console to report that Explorer has launched, then close the window or sign out normally.
+
+This command is idempotent and safe to run multiple times; it is the fastest way to exit Shelled during testing.
+
 ## 1. Quick Recovery (Start Explorer Manually)
 
 1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Esc</kbd> to open **Task Manager**.
