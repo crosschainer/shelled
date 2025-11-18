@@ -1,6 +1,7 @@
 using Shell.Adapters.Win32;
 using Shell.Core;
 using Shell.Core.Events;
+using Shell.Core.Interfaces;
 using Shell.Core.Models;
 
 namespace Shell.Tests;
@@ -167,6 +168,32 @@ public class TrayIntegrationTests : IDisposable
         Assert.Equal("Test Message", balloonEvent.BalloonInfo.Text);
         Assert.Equal(TrayBalloonIcon.Info, balloonEvent.BalloonInfo.Icon);
         Assert.Equal(5000, balloonEvent.BalloonInfo.TimeoutMs);
+    }
+
+    [Fact]
+    public void TrayHost_TrayIconClicked_EmitsTrayIconClickedEvent()
+    {
+        // Arrange - add an icon and clear captured events
+        var iconId = "click-icon";
+        var trayIcon = new TrayIcon
+        {
+            Id = iconId,
+            ProcessId = 4321,
+            Tooltip = "Clickable Icon",
+            IconHandle = new IntPtr(9876)
+        };
+
+        _trayHost.AddTrayIcon(trayIcon);
+        _capturedEvents.Clear();
+
+        // Act - simulate a click via the tray host helper
+        _trayHost.SimulateTrayIconClicked(iconId, TrayClickType.LeftClick);
+
+        // Assert - the ShellCore should publish the click event
+        var clickedEvent = _capturedEvents.OfType<TrayIconClickedEvent>().FirstOrDefault();
+        Assert.NotNull(clickedEvent);
+        Assert.Equal(iconId, clickedEvent.TrayIconId);
+        Assert.Equal(TrayClickType.LeftClick, clickedEvent.ClickType);
     }
 
     [Fact]

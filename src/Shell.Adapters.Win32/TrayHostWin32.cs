@@ -301,6 +301,28 @@ public class TrayHostWin32 : ITrayHost, IDisposable
         // by the UI layer when it receives TrayIconClicked events.
     }
 
+    /// <summary>
+    /// Test helper to simulate a tray icon click without requiring Win32 messages.
+    /// This is used by integration tests when running in non-Windows environments.
+    /// </summary>
+    /// <param name="trayIconId">The tray icon identifier to simulate a click for.</param>
+    /// <param name="clickType">The type of click that occurred.</param>
+    /// <exception cref="ArgumentException">Thrown when the tray icon ID is not known.</exception>
+    public void SimulateTrayIconClicked(string trayIconId, TrayClickType clickType)
+    {
+        if (string.IsNullOrEmpty(trayIconId))
+        {
+            throw new ArgumentException("Tray icon ID cannot be null or empty", nameof(trayIconId));
+        }
+
+        if (!_trayIcons.ContainsKey(trayIconId))
+        {
+            throw new ArgumentException($"Tray icon not found: {trayIconId}", nameof(trayIconId));
+        }
+
+        TrayIconClicked?.Invoke(trayIconId, clickType);
+    }
+
     public IEnumerable<TrayIcon> GetTrayIcons()
     {
         return _trayIcons.Values.Select(data => data.TrayIcon);
