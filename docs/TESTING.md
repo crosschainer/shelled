@@ -84,6 +84,14 @@ Typical scenarios:
 3. **Tray Interaction** – Start a helper tray app, wait for icon to appear in the
    UI, click it, assert the helper logs the callback.
 
+The launcher/process flow scenario now has a cross-platform automated check that
+runs inside `src/Shell.UI.Web` using Node’s built-in test runner and `jsdom`.
+The test file `tests/e2e/launcher.e2e.test.js` wires up the real HTML/CSS/JS,
+stubs the bridge API, simulates opening the launcher, launches the `notepad`
+app entry, and verifies that the taskbar reflects the new window.  Run it via
+`npm test` inside `src/Shell.UI.Web` to validate the full UI→bridge→Core loop
+without requiring a Windows desktop session.
+
 ## 5. Linting & Static Analysis
 
 Add linters as the codebase grows:
