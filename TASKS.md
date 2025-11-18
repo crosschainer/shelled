@@ -294,11 +294,11 @@
 - [x] `TEST-UI-01` JS unit tests: reducer/store updates state on events correctly (window created/destroyed/updated, workspace switched, tray icon changes)
   - `status:done`
 
-- [ ] `TEST-UI-02` Integration (FakeShellCore): pushing two windows results in two `.taskbar-item` elements in DOM  
-  - `status:todo`
+- [x] `TEST-UI-02` Integration (FakeShellCore): pushing two windows results in two `.taskbar-item` elements in DOM
+  - `status:done`
 
-- [ ] `TEST-UI-03` Integration (FakeShellCore): clicking `.taskbar-item` calls `focusWindow` in the fake core  
-  - `status:todo`
+- [x] `TEST-UI-03` Integration (FakeShellCore): clicking `.taskbar-item` calls `focusWindow` in the fake core
+  - `status:done`
 
 ---
 
