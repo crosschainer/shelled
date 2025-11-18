@@ -339,13 +339,13 @@ These use **real Core + real UI + real adapters**.
     - or restore original shell registry value
   - `status:todo`
 
-- [ ] `SAFE-02` Document recovery procedure in `docs/Recovery.md`:
+- [x] `SAFE-02` Document recovery procedure in `docs/Recovery.md`:
   - Safe Mode boot
   - Restoring `explorer.exe` as shell
-  - `status:todo`
+  - `status:done`
 
-- [ ] `SAFE-03` Ensure `SHELL_TEST_MODE` prevents any registry modifications or shell registration when running tests/CI  
-  - `status:todo`
+- [x] `SAFE-03` Ensure `SHELL_TEST_MODE` prevents any registry modifications or shell registration when running tests/CI
+  - `status:done`
 
 ---
 
