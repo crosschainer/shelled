@@ -183,10 +183,10 @@
 
 ## 4. Shell Core Process & Bootstrap
 
-- [ ] `BOOT-01` Implement `ShellCoreService`:
+- [x] `BOOT-01` Implement `ShellCoreService`:
   - lifecycle: start, stop, restart UI host
   - maintains instance of `ShellCore`, `WindowSystemWin32`, `ProcessLauncherWin32`, `TrayHostWin32`, `HotkeyRegistryWin32`
-  - `status:todo`
+  - `status:done`
 
 - [ ] `BOOT-02` Implement `myshell-bootstrap.exe`:
   - created as `Shell` in `Winlogon` registry key (per-user for safety)

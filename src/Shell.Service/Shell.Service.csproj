@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Shell.Core/Shell.Core.csproj" />
+    <ProjectReference Include="../Shell.Adapters.Win32/Shell.Adapters.Win32.csproj" />
+    <ProjectReference Include="../Shell.Bridge.WebView/Shell.Bridge.WebView.csproj" />
+  </ItemGroup>
+
+</Project>

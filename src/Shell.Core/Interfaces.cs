@@ -238,3 +238,56 @@ public class SystemEventArgs
     public string? Reason { get; set; }
     public Dictionary<string, object> AdditionalData { get; set; } = new();
 }
+
+/// <summary>
+/// Service lifecycle states
+/// </summary>
+public enum ServiceState
+{
+    Stopped,
+    Starting,
+    Running,
+    Stopping,
+    Failed
+}
+
+/// <summary>
+/// Interface for the main shell core service that orchestrates all components
+/// </summary>
+public interface IShellCoreService : IDisposable
+{
+    /// <summary>
+    /// Current state of the service
+    /// </summary>
+    ServiceState State { get; }
+
+    /// <summary>
+    /// Start the shell core service and all its components
+    /// </summary>
+    Task StartAsync();
+
+    /// <summary>
+    /// Stop the shell core service and all its components
+    /// </summary>
+    Task StopAsync();
+
+    /// <summary>
+    /// Restart the UI host process
+    /// </summary>
+    Task RestartUiHostAsync();
+
+    /// <summary>
+    /// Get the current shell core instance
+    /// </summary>
+    ShellCore? GetShellCore();
+
+    /// <summary>
+    /// Event fired when the service state changes
+    /// </summary>
+    event Action<ServiceState>? StateChanged;
+
+    /// <summary>
+    /// Event fired when the UI host process crashes or exits unexpectedly
+    /// </summary>
+    event Action<Exception?>? UiHostCrashed;
+}
