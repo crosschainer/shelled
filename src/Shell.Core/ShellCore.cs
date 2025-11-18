@@ -47,7 +47,17 @@ public class ShellCore : IDisposable
         // Return a copy to prevent external modification
         return new ShellState
         {
-            Windows = new Dictionary<IntPtr, ShellWindow>(_state.Windows),
+            Windows = _state.Windows.ToDictionary(
+                kvp => kvp.Key,
+                kvp => new ShellWindow
+                {
+                    Handle = kvp.Value.Handle,
+                    Title = kvp.Value.Title,
+                    ProcessId = kvp.Value.ProcessId,
+                    WorkspaceId = kvp.Value.WorkspaceId,
+                    State = kvp.Value.State,
+                    IsVisible = kvp.Value.IsVisible
+                }),
             Workspaces = new Dictionary<string, Workspace>(_state.Workspaces.ToDictionary(
                 kvp => kvp.Key,
                 kvp => new Workspace

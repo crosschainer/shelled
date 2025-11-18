@@ -46,6 +46,12 @@ public class TrayHostWin32 : ITrayHost, IDisposable
 
     private void InitializeMessageWindow()
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // On non-Windows platforms, skip Win32 initialization
+            return;
+        }
+
         try
         {
             // Create a message-only window to receive tray icon notifications
@@ -139,9 +145,9 @@ public class TrayHostWin32 : ITrayHost, IDisposable
     {
         if (trayIcon == null) throw new ArgumentNullException(nameof(trayIcon));
 
-        if (ShellConfiguration.DisableDangerousOperations)
+        if (ShellConfiguration.DisableDangerousOperations || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // In test mode, just track the icon and fire events
+            // In test mode or on non-Windows platforms, just track the icon and fire events
             var mockData = new TrayIconData
             {
                 IconId = _nextIconId++,
@@ -201,7 +207,7 @@ public class TrayHostWin32 : ITrayHost, IDisposable
             return; // Icon not found
         }
 
-        if (!ShellConfiguration.DisableDangerousOperations && _messageWindow != IntPtr.Zero)
+        if (!ShellConfiguration.DisableDangerousOperations && RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && _messageWindow != IntPtr.Zero)
         {
             var notifyIconData = trayIconData.NotifyIconData;
             Win32Api.Shell_NotifyIcon(Win32Api.NIM_DELETE, ref notifyIconData);
@@ -222,7 +228,7 @@ public class TrayHostWin32 : ITrayHost, IDisposable
         // Update our tracking
         trayIconData.TrayIcon = trayIcon;
 
-        if (!ShellConfiguration.DisableDangerousOperations && _messageWindow != IntPtr.Zero)
+        if (!ShellConfiguration.DisableDangerousOperations && RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && _messageWindow != IntPtr.Zero)
         {
             // Update the Win32 tray icon
             var notifyIconData = trayIconData.NotifyIconData;
@@ -255,7 +261,7 @@ public class TrayHostWin32 : ITrayHost, IDisposable
         // Update tray icon with balloon info
         trayIconData.TrayIcon.BalloonInfo = balloonInfo;
 
-        if (!ShellConfiguration.DisableDangerousOperations && _messageWindow != IntPtr.Zero)
+        if (!ShellConfiguration.DisableDangerousOperations && RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && _messageWindow != IntPtr.Zero)
         {
             var notifyIconData = trayIconData.NotifyIconData;
             notifyIconData.uFlags = Win32Api.NIF_INFO;
@@ -330,7 +336,7 @@ public class TrayHostWin32 : ITrayHost, IDisposable
         }
 
         // Unregister window class
-        if (!ShellConfiguration.DisableDangerousOperations)
+        if (!ShellConfiguration.DisableDangerousOperations && RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             var hInstance = Win32Api.GetModuleHandle(null);
             Win32Api.UnregisterClass("ShelledTrayHost", hInstance);

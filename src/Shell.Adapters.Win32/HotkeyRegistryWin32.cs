@@ -43,6 +43,12 @@ public class HotkeyRegistryWin32 : IHotkeyRegistry, IDisposable
 
     private void InitializeMessageWindow()
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // On non-Windows platforms, skip Win32 initialization
+            return;
+        }
+
         try
         {
             // Create a message-only window to receive hotkey notifications
@@ -121,9 +127,9 @@ public class HotkeyRegistryWin32 : IHotkeyRegistry, IDisposable
             return false;
         }
 
-        if (ShellConfiguration.DisableDangerousOperations)
+        if (ShellConfiguration.DisableDangerousOperations || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // In test mode, just track the registration without calling Win32 APIs
+            // In test mode or on non-Windows platforms, just track the registration without calling Win32 APIs
             var testHotkey = new RegisteredHotkey
             {
                 Id = id,
@@ -186,9 +192,9 @@ public class HotkeyRegistryWin32 : IHotkeyRegistry, IDisposable
             return false;
         }
 
-        if (ShellConfiguration.DisableDangerousOperations)
+        if (ShellConfiguration.DisableDangerousOperations || !RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            // In test mode, just remove from tracking
+            // In test mode or on non-Windows platforms, just remove from tracking
             _registeredHotkeys.Remove(id);
             _hotkeyIdMap.Remove(hotkey.AtomId);
             return true;

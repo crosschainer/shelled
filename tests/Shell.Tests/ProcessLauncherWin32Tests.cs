@@ -18,6 +18,7 @@ public class ProcessLauncherWin32Tests : IDisposable
     public async Task LaunchAppAsync_InTestMode_ReturnsFakeProcessId()
     {
         // Arrange
+        Environment.SetEnvironmentVariable("SHELL_TEST_MODE", "1");
         var launcher = new ProcessLauncherWin32();
         
         // Verify test mode is active
@@ -29,6 +30,9 @@ public class ProcessLauncherWin32Tests : IDisposable
 
         // Assert
         Assert.Equal(12345, processId); // Should return fake process ID in test mode
+        
+        // Cleanup
+        Environment.SetEnvironmentVariable("SHELL_TEST_MODE", null);
     }
 
     [Fact]

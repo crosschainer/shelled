@@ -142,9 +142,9 @@
 
 #### Tests
 
-- [ ] `TEST-INT-VM-01` Integration: assigning windows to workspaces + switching workspace hides/shows windows correctly using real `WindowSystemWin32`  
+- [x] `TEST-INT-VM-01` Integration: assigning windows to workspaces + switching workspace hides/shows windows correctly using real `WindowSystemWin32`  
   - Use helper apps #1 and #2  
-  - `status:todo`
+  - `status:done`
 
 ### 3.4 Tray Host
 
