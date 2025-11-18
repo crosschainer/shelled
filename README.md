@@ -83,6 +83,12 @@ Shelled uses a clean layered architecture with strict separation of concerns:
    .\ShellUiHost.exe
    ```
 
+5. **Run the Bootstrap System (shell replacement mode)**
+   ```cmd
+   cd src\Shell.Bootstrap\bin\Debug\net8.0-windows
+   .\myshell-bootstrap.exe
+   ```
+
 ### Project Structure
 
 ```
@@ -91,9 +97,13 @@ shelled/
 │   ├── Shell.Core/              # Domain logic and interfaces
 │   ├── Shell.Adapters.Win32/    # Win32 API implementations  
 │   ├── Shell.Bridge.WebView/    # UI Host executable (ShellUiHost.exe)
+│   ├── Shell.Bootstrap/         # Bootstrap executable (myshell-bootstrap.exe)
+│   ├── Shell.Service/           # Windows service (ShellCoreService)
 │   └── Shell.UI.Web/            # HTML/CSS/JS frontend
 ├── tests/
-│   └── Shell.Tests/             # Unit and integration tests
+│   ├── Shell.Tests/             # Unit and integration tests
+│   ├── Shell.Bootstrap.Tests/   # Bootstrap system tests
+│   └── Shell.Service.Tests/     # Service tests
 ├── TASKS.md                     # Development task tracking
 └── README.md                    # This file
 ```
@@ -109,7 +119,7 @@ shelled/
 
 The project has comprehensive test coverage:
 
-- **124 total tests** with **100% pass rate**
+- **142 total tests** with **98.6% pass rate** (140 passing, 2 failing)
 - **Unit tests** for pure domain logic
 - **Integration tests** for Win32 adapter functionality  
 - **UI Host tests** for WebView2 integration
@@ -139,7 +149,8 @@ dotnet test --filter "Integration"
 - **System Events**: Proper handling of shutdown/logoff events
 - **Virtual Workspaces**: Internal workspace switching with window show/hide
 - **UI Host**: Borderless fullscreen WebView2 host (`ShellUiHost.exe`)
-- **Test Suite**: Comprehensive unit and integration test coverage
+- **Bootstrap System**: Complete shell replacement with crash recovery and safe mode
+- **Test Suite**: Comprehensive unit and integration test coverage (142 tests)
 
 ### 🚧 In Progress
 
@@ -150,7 +161,7 @@ dotnet test --filter "Integration"
 
 - Complete bridge API implementation (`UIHOST-02`)
 - Build responsive web-based shell UI
-- Add shell registration and bootstrap executable
+- Fix remaining integration test failures (virtual workspace visibility)
 - End-to-end testing and polish
 
 ## 🛡️ Safety Features
