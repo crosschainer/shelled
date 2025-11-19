@@ -78,8 +78,6 @@ Only do this if you are comfortable with Windows recovery tools.
 
 - Create a separate local user account (for example `ShelledTest`) and use
   that account for your first experiments.
-- Keep `docs/Recovery.md` open on another device so you can follow the
-  recovery steps even if your desktop is broken.
 - Keep at least one administrator account that still uses the normal Windows
   desktop.
 
@@ -152,9 +150,6 @@ options:
   3. Set `Shell` to `explorer.exe` (or delete the value).  
   4. Sign out and sign back in.
 
-For more detailed recovery scenarios (Safe Mode, fixing another user profile,
-etc.) see `docs/Recovery.md`.
-
 ---
 
 ## Overview
@@ -196,31 +191,6 @@ Current top-level projects:
 - `tests/Shell.Tests` – core + adapter + UI host unit/integration tests.
 - `tests/Shell.Bootstrap.Tests` – bootstrap / shell registration tests.
 - `tests/Shell.Service.Tests` – service lifecycle tests.
-
----
-
-## What Shelled Provides on Windows 11
-
-- **Custom Desktop Environment**
-  - Modern, web-rendered shell surface (taskbar, panels, launcher, tray).
-  - Workspace-centric workflow instead of a single global taskbar.
-
-- **Virtual Workspaces**
-  - Internal workspace model managed by the core.
-  - Windows are assigned to workspaces; switching a workspace hides/shows
-    windows via the window system adapter.
-
-- **App Launcher**
-  - Web-driven launcher overlay (similar to a start menu / app grid).
-  - Application metadata and launch definitions live in core configuration.
-
-- **Tray Integration**
-  - Native tray host window receives `Shell_NotifyIcon` messages.
-  - Core maintains a tray model; Web UI renders it and forwards clicks.
-
-- **Hotkeys & System Events**
-  - Global hotkeys (e.g. for launcher or workspace switching).
-  - Clean handling of shutdown and logoff so the shell exits gracefully.
 
 ---
 
@@ -266,20 +236,6 @@ The UI tests include:
   - Tray icon rendering and click routing (`TEST-E2E-03`).
 
 ---
-
-## Status & Roadmap
-
-Current state:
-
-- Core, adapters, service, bootstrap, and WebView host are implemented.
-- Web UI provides a functional shell surface (taskbar, launcher, workspaces, tray).
-- Safety features and test-mode behavior are in place.
-
-Next steps:
-
-- Polish the desktop experience for daily-driver use on Windows 11.
-- Expand configuration and theming options for the web UI.
-- Iterate on performance and resource usage.
 
 If you’re interested in running a modern, web-powered desktop environment
 on Windows 11, Shelled is the experimental playground to do it. Contributions,
