@@ -1,5 +1,7 @@
 # Shelled – Modern Desktop Environment for Windows 11
 
+![Shelled Desktop Preview](preview.png)
+
 Shelled is a **modern desktop environment replacement for Windows 11**.  
 Instead of skinning or theming the existing shell, Shelled replaces `explorer.exe`
 with a native backbone plus a fully web-based desktop UI.
