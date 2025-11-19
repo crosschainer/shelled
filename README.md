@@ -36,6 +36,7 @@ section further down.
 This runs Shelled **on top of** your existing desktop:
 
 - Explorer keeps running in the background.
+- Windows Taskbar will still show up when switching windows.
 - No registry keys are changed.
 - You can always close Shelled and go back to normal Windows.
 
