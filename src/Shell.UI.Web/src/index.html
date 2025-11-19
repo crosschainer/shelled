@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shelled Desktop</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="desktop">
+    <header id="top-panel" class="glass-panel">
+      <div class="panel-section">
+        <span class="brand">Shelled</span>
+        <span class="divider" aria-hidden="true">|</span>
+        <span class="hint">Desktop shell</span>
+      </div>
+      <div class="panel-section panel-section-right">
+        <span id="status-text" class="status-chip" aria-live="polite">Disconnected</span>
+        <button id="exit-shell-button" class="btn-pill" type="button">Back to Windows</button>
+        <button
+          id="network-indicator"
+          class="system-indicator system-indicator--network"
+          type="button"
+          aria-label="Network status"
+          title="Network status">
+         <svg class="icon icon--network" viewBox="0 0 24 24" aria-hidden="true">
+  <rect x="4"  y="14" width="3" height="4"  rx="1.5" />
+  <rect x="8"  y="12" width="3" height="6"  rx="1.5" />
+  <rect x="12" y="10" width="3" height="8"  rx="1.5" />
+  <rect x="16" y="8"  width="3" height="10" rx="1.5" />
+
+         </svg>
+
+        </button>
+        <button
+          id="volume-indicator"
+          class="system-indicator system-indicator--volume"
+          type="button"
+          aria-label="Volume"
+          title="Volume">
+          <svg class="icon icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9h3l3-3v12l-3-3H4z" />
+            <path d="M15 9a3 3 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M17 7a5 5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <time id="clock" aria-live="polite">--:--</time>
+      </div>
+    </header>
+
+    <div
+      id="volume-flyout"
+      class="volume-flyout panel"
+      role="group"
+      aria-label="System volume"
+      aria-hidden="true">
+      <div class="volume-flyout__row">
+        <button
+          id="volume-mute-toggle"
+          class="btn-circle volume-flyout__mute"
+          type="button"
+          aria-label="Mute or unmute volume">
+          <svg class="icon icon--volume" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 9h3l3-3v12l-3-3H4z" />
+            <path d="M15 9a3 3 0 0 1 0 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M17 7a5 5 0 0 1 0 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+        <input
+          id="volume-slider"
+          class="volume-flyout__slider"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="0"
+          aria-label="System volume slider" />
+        <span id="volume-percent-label" class="volume-flyout__percent">0%</span>
+      </div>
+    </div>
+
+    <section id="desktop-space" aria-label="Desktop wallpaper">
+      <div id="desktop-icons" aria-label="Desktop icons"></div>
+    </section>
+
+    <section id="workspace-strip" aria-label="Workspace switcher"></section>
+
+    <footer id="taskbar" class="glass-panel">
+      <button
+        id="launcher-toggle"
+        class="btn-icon btn-icon--lg"
+        aria-label="Open launcher"
+        aria-haspopup="true"
+        aria-controls="launcher-overlay">
+        <svg class="icon icon--launcher" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </svg>
+      </button>
+      <div id="taskbar-windows" class="taskbar-section" aria-label="Open windows"></div>
+      <div id="tray-icons" class="taskbar-section tray" aria-label="System tray"></div>
+    </footer>
+  </div>
+
+  <div id="shell-loading-overlay" class="shell-loading-overlay" aria-hidden="true">
+    <div class="shell-loading-panel panel">
+      <div class="shell-loading-brand">Shelled</div>
+      <p class="shell-loading__status">Starting shell…</p>
+    </div>
+  </div>
+
+  <div id="launcher-overlay" class="overlay-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="launcher-panel panel">
+      <div class="launcher-header">
+        <h2>Launcher</h2>
+        <button id="launcher-close" class="btn-icon" aria-label="Close launcher">
+          <svg class="icon icon--close" viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" stroke-linecap="round" />
+            <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div id="launcher-grid" class="launcher-grid" aria-label="Pinned applications"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>
+
+
+
+
+
+
+

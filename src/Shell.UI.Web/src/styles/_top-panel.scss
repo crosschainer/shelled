@@ -1,0 +1,119 @@
+@use "./components/chips";
+@use "./components/surfaces";
+
+#top-panel {
+  @include surfaces.glass-panel(0 24px, 0);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  border-width: 0 0 1px;
+}
+
+.panel-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-section-right {
+  gap: 16px;
+
+  .system-indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(5, 7, 15, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    color: var(--panel-text);
+  }
+
+  .system-indicator svg.icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .system-indicator--network-offline {
+    opacity: 0.5;
+  }
+
+  .system-indicator--volume-muted {
+    color: var(--danger);
+  }
+}
+
+.volume-flyout {
+  position: fixed;
+  top: 56px;
+  right: 24px;
+  z-index: 9000;
+  @include surfaces.panel(12px 14px, 14px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.12s ease-out,
+    transform 0.12s ease-out;
+}
+
+.volume-flyout.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.volume-flyout__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volume-flyout__slider {
+  flex: 1;
+  accent-color: var(--accent);
+}
+
+.volume-flyout__percent {
+  width: 3ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.volume-flyout__mute {
+  flex-shrink: 0;
+  color: var(--panel-text);
+}
+
+.volume-flyout__mute--muted {
+  color: var(--danger);
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.status-chip {
+  @include chips.chip(rgba(88, 166, 255, 0.15), rgba(88, 166, 255, 0.4), var(--accent));
+}
+
+#clock {
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+}

@@ -1,0 +1,111 @@
+@use "./components/cards";
+@use "./components/surfaces";
+
+#launcher-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  @include surfaces.overlay-backdrop();
+}
+
+#launcher-overlay.open {
+  display: flex;
+}
+
+.launcher-panel {
+  @include surfaces.panel(24px, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 80vh;
+  width: min(960px, 90vw);
+}
+
+.launcher-panel h2 {
+  margin: 0;
+}
+
+.launcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.launcher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.launcher-card {
+  // Match visual treatment of desktop icons for consistency.
+  @include cards.card(10px, 12px, 0.12, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(5, 7, 15, 0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.1s ease;
+
+  &:hover {
+    border-color: var(--accent);
+    background: rgba(5, 7, 15, 0.85);
+    transform: translateY(-1px);
+  }
+}
+
+.launcher-card__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.launcher-card__icon-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.launcher-card__icon-fallback {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--panel-text);
+  font-weight: 600;
+}
+
+.launcher-card__title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.launcher-card__title strong {
+  font-size: 1rem;
+}
+
+.launcher-card__title p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}

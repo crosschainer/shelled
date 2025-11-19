@@ -1,0 +1,32 @@
+@use "../tokens";
+
+.icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.icon--launcher {
+  width: 20px;
+  height: 20px;
+}
+
+.icon--close {
+  width: 18px;
+  height: 18px;
+}
+
+.icon--network {
+  width: 18px;
+  height: 18px;
+}
+
+.icon--volume {
+  width: 18px;
+  height: 18px;
+}

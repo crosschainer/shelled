@@ -1,0 +1,19 @@
+{
+  "name": "shell.ui.web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:styles": "sass --no-source-map src/styles.scss src/styles.css",
+    "watch:styles": "sass --watch --no-source-map src/styles.scss src/styles.css",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "jsdom": "^24.0.0",
+    "sass": "^1.94.0"
+  }
+}

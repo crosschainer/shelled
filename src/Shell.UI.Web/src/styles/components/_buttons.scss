@@ -1,0 +1,87 @@
+@mixin button-reset {
+  appearance: none;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+
+@mixin button-base {
+  @include button-reset;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+@mixin icon-button($size: 36px, $radius: 12px) {
+  @include button-base;
+  width: $size;
+  height: $size;
+  border-radius: $radius;
+  font-size: 1.2rem;
+}
+
+@mixin circle-button($size: 36px) {
+  @include icon-button($size, 50%);
+}
+
+@mixin pill-button {
+  @include button-base;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.9rem;
+}
+
+.btn {
+  @include button-base;
+  height: 40px;
+  padding: 0 18px;
+  font-weight: 500;
+}
+
+.btn-icon {
+  @include icon-button();
+}
+
+.btn-icon--lg {
+  @include icon-button(44px);
+  font-size: 1.5rem;
+}
+
+.btn-circle {
+  @include circle-button();
+}
+
+.btn-pill {
+  @include pill-button;
+}
+
+.btn,
+.btn-icon,
+.btn-circle,
+.btn-pill {
+  color: inherit;
+}
+
+.btn:hover,
+.btn-icon:hover,
+.btn-circle:hover,
+.btn-pill:hover {
+  border-color: var(--accent);
+}
+
+.btn:focus-visible,
+.btn-icon:focus-visible,
+.btn-circle:focus-visible,
+.btn-pill:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.4);
+}
